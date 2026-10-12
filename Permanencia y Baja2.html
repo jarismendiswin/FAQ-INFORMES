@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Permanencia y baja · Guía para el asesor de ventas | WIN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --negro:#0F0908; --amarillo:#FFC200; --naranja:#FF5A0A; --blanco:#FFFFFF;
+  --gris-claro:#F3F4F6; --gris-oscuro:#606060;
+  --naranja-suave:#FFF1E9; --naranja-borde:#FFD3BC; --amarillo-suave:#FFF7DB;
+  --linea:#E4E5E9;
+  --font:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --r-lg:20px; --r-md:14px; --r-sm:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--gris-claro);color:var(--negro);line-height:1.55;min-height:100vh;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+svg{flex-shrink:0}
+:focus-visible{outline:3px solid var(--amarillo);outline-offset:3px;border-radius:8px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- Encabezado ---------- */
+.topbar{position:sticky;top:0;z-index:20;background:var(--negro);color:var(--blanco);padding-top:env(safe-area-inset-top,0px)}
+.topbar-in{max-width:1080px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:16px}
+.logo{display:block;height:36px;width:auto;border-radius:8px}
+.topbar-title{font-weight:600;font-size:14px;color:#cfcfcf;border-left:1px solid #3a3433;padding-left:16px}
+.topbar-title strong{color:var(--blanco);font-weight:700}
+.nav{margin-left:auto;display:flex;gap:4px}
+.nav button{padding:8px 12px;border-radius:999px;font-size:13px;font-weight:600;color:#d8d8d8;display:flex;align-items:center;gap:6px;transition:background .2s,color .2s}
+.nav button:hover{background:#2a2322;color:var(--blanco)}
+.nav button[aria-current="page"]{background:var(--naranja);color:var(--blanco)}
+.nav .lbl-short{display:none}
+
+/* ---------- Vistas ---------- */
+main{max-width:1080px;margin:0 auto;padding:28px 20px calc(48px + env(safe-area-inset-bottom,0px))}
+.view{display:none}
+.view.active{display:block;animation:entra .35s ease}
+@keyframes entra{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ---------- Inicio ---------- */
+.hero{background:var(--negro);color:var(--blanco);border-radius:var(--r-lg);padding:26px 32px 24px;border-left:6px solid var(--naranja)}
+.hero h1{font-size:clamp(26px,4.6vw,46px);font-weight:900;line-height:1.05;letter-spacing:-1.2px;white-space:nowrap}
+.hero .sub{margin-top:6px;font-size:17px;font-weight:600;font-style:italic;color:var(--amarillo)}
+.hero p.desc{margin-top:10px;max-width:52ch;color:#dedede;font-size:16px;font-weight:300}
+
+.blocks{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+.block{background:var(--blanco);border-radius:var(--r-lg);padding:24px 22px 20px;text-align:left;display:flex;flex-direction:column;gap:12px;border:2px solid transparent;box-shadow:0 1px 2px rgba(15,9,8,.06);transition:border-color .2s,transform .2s,box-shadow .2s}
+.block:hover{border-color:var(--naranja);transform:translateY(-3px);box-shadow:0 10px 24px rgba(15,9,8,.08)}
+.block .ico{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--naranja);color:var(--blanco)}
+.block:nth-child(2) .ico{background:var(--negro);color:var(--amarillo)}
+.block:nth-child(3) .ico{background:var(--amarillo);color:var(--negro)}
+.block .num{font-size:13px;font-weight:700;color:var(--gris-oscuro)}
+.block h2{font-size:20px;font-weight:800;line-height:1.2}
+.block p{font-size:14px;color:var(--gris-oscuro)}
+.block .go{margin-top:auto;padding-top:8px;font-size:14px;font-weight:700;color:var(--naranja);display:flex;align-items:center;gap:6px}
+
+.footnote{margin-top:22px;display:flex;gap:10px;align-items:flex-start;background:var(--amarillo-suave);border:1px solid #F5DE8E;border-radius:var(--r-md);padding:14px 16px;font-size:14px}
+.footnote svg{color:#B88900;margin-top:1px}
+
+/* ---------- Cabecera de sección ---------- */
+.sec-head{display:flex;gap:16px;align-items:flex-start;margin-bottom:22px}
+.back{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--gris-oscuro);padding:8px 12px 8px 8px;border-radius:999px;background:var(--blanco);border:1px solid var(--linea);margin-bottom:18px;transition:color .2s,border-color .2s}
+.back:hover{color:var(--naranja);border-color:var(--naranja)}
+.sec-head .badge{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-weight:900;font-size:18px}
+.sec-head h1{font-size:clamp(26px,4vw,38px);font-weight:900;letter-spacing:-.8px;line-height:1.1}
+.sec-head p{color:var(--gris-oscuro);margin-top:6px;max-width:60ch}
+
+/* ---------- Bloque 2: tarjetas ---------- */
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;letter-spacing:.4px;text-transform:uppercase}
+.avoid-list{display:flex;flex-direction:column;gap:12px}
+.avoid-head{display:grid;grid-template-columns:1fr 40px 1fr;margin:0 0 2px;font-size:12px;font-weight:800;letter-spacing:.4px;text-transform:uppercase}
+.avoid-head span{display:flex;align-items:center;gap:6px;padding:0 18px}
+.avoid-head span:first-child{color:var(--naranja)}
+.avoid-head span:last-child{color:var(--negro)}
+.avoid{position:relative;display:grid;grid-template-columns:1fr 40px 1fr;background:var(--blanco);border-radius:var(--r-md);overflow:hidden;box-shadow:0 1px 2px rgba(15,9,8,.06);border:1px solid var(--linea)}
+.avoid-top{padding:12px 16px;border-left:5px solid var(--naranja);display:flex;align-items:center}
+.avoid-top .tag,.avoid-why .tag{display:none}
+.phrase{display:flex;gap:9px;align-items:flex-start;font-size:16px;font-weight:700;color:var(--naranja);line-height:1.35}
+.phrase svg{width:18px;height:18px;margin-top:1px}
+.avoid-link{display:grid;place-items:center;background:linear-gradient(90deg,var(--blanco) 50%,var(--gris-claro) 50%)}
+.avoid-link span{width:30px;height:30px;border-radius:50%;background:var(--negro);color:var(--amarillo);display:grid;place-items:center;font-size:12px;font-weight:800}
+.avoid-why{background:var(--gris-claro);padding:12px 16px;display:flex;align-items:center}
+.avoid-why p{color:var(--gris-oscuro);font-size:15px;line-height:1.45}
+.avoid:hover{border-color:var(--naranja)}
+.summary-note{margin-top:18px;background:var(--negro);color:var(--blanco);border-radius:var(--r-md);padding:16px 20px;display:flex;gap:12px;font-size:15px}
+.summary-note svg{color:var(--amarillo);margin-top:2px}
+
+/* ---------- Bloque 3: lista de preguntas ---------- */
+.search{position:relative;margin-bottom:14px}
+.search input{width:100%;font:inherit;font-size:16px;padding:14px 44px 14px 46px;border-radius:999px;border:2px solid var(--linea);background:var(--blanco);color:var(--negro);transition:border-color .2s}
+.search input:focus{outline:none;border-color:var(--naranja)}
+.search .s-ico{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--gris-oscuro)}
+.search .clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;display:none;place-items:center;color:var(--gris-oscuro)}
+.search .clear:hover{background:var(--gris-claro)}
+.search.has-text .clear{display:grid}
+.q-count{font-size:13px;color:var(--gris-oscuro);margin:0 4px 10px}
+.q-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(7,auto);grid-auto-flow:column;gap:8px 12px}
+.q-list li{display:flex}
+.q-list .q-item{height:100%}
+.q-item{width:100%;display:flex;align-items:center;gap:12px;background:var(--blanco);border-radius:var(--r-md);padding:11px 14px;text-align:left;border:2px solid transparent;transition:border-color .18s,background .18s}
+.q-item:hover{border-color:var(--naranja)}
+.q-item:active{background:var(--naranja-suave)}
+.q-num{flex:0 0 36px;height:36px;border-radius:12px;background:var(--negro);color:var(--amarillo);display:grid;place-items:center;font-weight:800;font-size:15px}
+.q-text{flex:1;font-weight:600;font-size:15px;line-height:1.35}
+.q-text mark{background:var(--amarillo);color:var(--negro);border-radius:3px;padding:0 2px}
+.q-arrow{display:flex;color:var(--naranja);transition:transform .18s}
+.q-item:hover .q-arrow{transform:translateX(3px)}
+.empty{background:var(--blanco);border-radius:var(--r-md);padding:24px;color:var(--gris-oscuro);display:none}
+.empty.show{display:block}
+
+/* ---------- Modales ---------- */
+.overlay{position:fixed;inset:0;z-index:50;background:rgba(15,9,8,.62);display:flex;align-items:center;justify-content:center;padding:20px;padding-top:calc(20px + env(safe-area-inset-top,0px));padding-bottom:calc(20px + env(safe-area-inset-bottom,0px));opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.overlay.open{opacity:1;visibility:visible}
+.modal{background:var(--blanco);border-radius:24px;width:100%;max-width:640px;max-height:100%;display:flex;flex-direction:column;overflow:hidden;transform:translateY(16px) scale(.98);transition:transform .28s cubic-bezier(.2,.8,.2,1);box-shadow:0 24px 60px rgba(0,0,0,.3)}
+.overlay.open .modal{transform:none}
+.m-head{background:var(--negro);color:var(--blanco);padding:20px 22px;display:flex;gap:14px;align-items:flex-start}
+.m-head .m-num{flex:0 0 44px;height:44px;border-radius:12px;background:var(--naranja);display:grid;place-items:center;font-weight:900;font-size:16px}
+.m-head h2{font-size:clamp(19px,2.6vw,23px);font-weight:800;line-height:1.25;flex:1;padding-top:6px}
+.m-close{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:var(--blanco);background:#2a2322;transition:background .2s}
+.m-close:hover{background:var(--naranja)}
+.m-body{padding:22px;overflow-y:auto;display:flex;flex-direction:column;gap:14px}
+.m-body > p{font-size:16.5px;color:#2b2523}
+.m-foot{border-top:1px solid var(--linea);padding:14px 22px;display:flex;gap:10px;align-items:center;justify-content:space-between;background:var(--blanco)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;font-weight:700;font-size:14px;transition:background .2s,color .2s,border-color .2s,opacity .2s}
+.btn-primary{background:var(--naranja);color:var(--blanco)}
+.btn-primary:hover{background:#E54D04}
+.btn-ghost{border:2px solid var(--linea);color:var(--negro)}
+.btn-ghost:hover:not(:disabled){border-color:var(--negro)}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.m-pos{font-size:13px;color:var(--gris-oscuro);font-weight:600}
+
+.rule{background:var(--naranja-suave);border:1px solid var(--naranja-borde);border-left:6px solid var(--naranja);border-radius:var(--r-md);padding:16px 18px;display:flex;gap:12px}
+.rule svg{color:var(--naranja);margin-top:2px}
+.rule .tag{color:var(--naranja)}
+.rule p{margin-top:4px;font-size:17px;font-weight:700;color:var(--negro);line-height:1.4}
+
+.answer{border:2px solid var(--negro);border-radius:var(--r-md);padding:18px 20px;background:var(--blanco)}
+.answer .tag{color:var(--negro)}
+.answer blockquote{margin-top:10px;font-size:clamp(18px,2.5vw,21px);font-weight:700;line-height:1.4;color:var(--negro)}
+.answer .price-hint{margin-top:12px;font-size:13.5px;color:var(--gris-oscuro);display:flex;gap:8px;background:var(--amarillo-suave);border-radius:var(--r-sm);padding:9px 12px}
+.answer .price-hint svg{color:#B88900;margin-top:1px}
+.alert{background:var(--naranja-suave);border:1px solid var(--naranja-borde);border-radius:var(--r-md);padding:16px 18px;display:flex;gap:12px}
+.alert .a-ico{color:var(--naranja);margin-top:1px}
+.alert .tag{color:var(--naranja)}
+.alert .a-kind{display:inline-block;margin-left:8px;background:var(--naranja);color:var(--blanco);font-size:11px;font-weight:800;padding:2px 8px;border-radius:6px;letter-spacing:.5px}
+.alert .a-kind.ojo{background:var(--negro);color:var(--amarillo)}
+.alert p{margin-top:6px;color:#3f3a39;font-size:15.5px}
+
+@media (max-width:1000px){ .topbar-title{display:none} }
+@media (max-width:860px){
+  .blocks{grid-template-columns:1fr}
+  .q-list{grid-template-columns:1fr;grid-template-rows:none;grid-auto-flow:row}
+  .avoid-head{display:none}
+  .avoid{grid-template-columns:1fr}
+  .avoid-link{display:none}
+  .avoid-top .tag,.avoid-why .tag{display:inline-flex;margin-bottom:4px}
+  .avoid-top,.avoid-why{flex-direction:column;align-items:flex-start}
+  .avoid-top .tag{color:var(--naranja)}
+  .topbar-title{display:none}
+}
+@media (max-width:600px){
+  main{padding:18px 14px 40px}
+  .hero{padding:20px 18px 18px}
+  .logo{height:30px}
+  .nav .lbl{display:none}
+  .nav button{padding:8px 10px}
+  .overlay{padding:0;align-items:flex-end;padding-top:env(safe-area-inset-top,0px)}
+  .modal{border-radius:22px 22px 0 0;max-height:100%}
+  .m-foot{padding-bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+  .m-foot .btn .t{display:none}
+  .avoid-top,.avoid-why{padding-left:18px;padding-right:18px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <img class="logo" src="data:image/png;base64,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" alt="WIN" width="69" height="36">
+    <div class="topbar-title"><strong>Permanencia y baja</strong> · Guía para el asesor de ventas</div>
+    <nav class="nav" aria-label="Secciones de la guía">
+      <button data-go="inicio" aria-current="page" title="Inicio">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg><span class="lbl">Inicio</span>
+      </button>
+      <button data-open="porque" title="¿Por qué estamos haciendo esto?">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg><span class="lbl">Por qué</span>
+      </button>
+      <button data-go="no-hacer" title="¿Qué no debemos hacer?">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M5.7 5.7l12.6 12.6"/></svg><span class="lbl">Qué no hacer</span>
+      </button>
+      <button data-go="preguntas" title="¿Cómo tratar las preguntas?">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg><span class="lbl">Preguntas</span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ================= INICIO ================= -->
+  <section class="view active" id="view-inicio" aria-labelledby="t-inicio">
+    <div class="hero">
+      <h1 id="t-inicio">Permanencia y baja</h1>
+      <div class="sub">Guía para el asesor de ventas</div>
+      <p class="desc">Qué decir y qué evitar cuando el cliente pregunta por la permanencia o la baja.</p>
+    </div>
+
+    <div class="blocks">
+      <button class="block" data-open="porque">
+        <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg></span>
+        <span class="num">Bloque 1</span>
+        <h2>¿Por qué estamos haciendo esto?</h2>
+        <p>Lo que se detectó en las escuchas de campo y la regla que debes cumplir.</p>
+        <span class="go">Ver la regla <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+      </button>
+      <button class="block" data-go="no-hacer">
+        <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M5.7 5.7l12.6 12.6"/></svg></span>
+        <span class="num">Bloque 2</span>
+        <h2>¿Qué no debemos hacer?</h2>
+        <p>Las frases que no debes decir y por qué empujan al cliente hacia la baja.</p>
+        <span class="go">Ver las frases <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+      </button>
+      <button class="block" data-go="preguntas">
+        <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></span>
+        <span class="num">Bloque 3</span>
+        <h2>¿Cómo tratar las preguntas?</h2>
+        <p>13 preguntas frecuentes del cliente con la respuesta que debes dar.</p>
+        <span class="go">Ver las preguntas <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ================= BLOQUE 2 ================= -->
+  <section class="view" id="view-no-hacer" aria-labelledby="t-nohacer">
+    <button class="back" data-go="inicio"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>Volver al inicio</button>
+    <div class="sec-head">
+      <span class="badge" style="background:var(--negro);color:var(--amarillo)" aria-hidden="true">02</span>
+      <div>
+        <h1 id="t-nohacer">¿Qué no debemos hacer?</h1>
+        <p>Estas frases no se dicen en ninguna llamada. Revisa cada una y el motivo.</p>
+      </div>
+    </div>
+    <div class="avoid-list" id="avoidList"></div>
+    <div class="summary-note">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>
+      <span id="avoidSummary"></span>
+    </div>
+  </section>
+
+  <!-- ================= BLOQUE 3 ================= -->
+  <section class="view" id="view-preguntas" aria-labelledby="t-preg">
+    <button class="back" data-go="inicio"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>Volver al inicio</button>
+    <div class="sec-head">
+      <span class="badge" style="background:var(--amarillo);color:var(--negro)" aria-hidden="true">03</span>
+      <div>
+        <h1 id="t-preg">¿Cómo tratar las preguntas?</h1>
+        <p>Selecciona una pregunta para conocer la respuesta recomendada y las consideraciones que debes tener en cuenta.</p>
+      </div>
+    </div>
+    <div class="search" id="searchWrap">
+      <svg class="s-ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <label for="search" class="sr-only">Buscar pregunta</label>
+      <input id="search" type="search" placeholder="Busca por palabra: penalidad, mudo, equipo, firmar…" autocomplete="off">
+      <button class="clear" id="clearSearch" aria-label="Borrar búsqueda"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="q-count" id="qCount" aria-live="polite"></div>
+    <ul class="q-list" id="qList"></ul>
+    <div class="empty" id="qEmpty">Ninguna pregunta coincide con tu búsqueda. Prueba con otra palabra, por ejemplo “baja” o “pagar”.</div>
+    <div class="footnote">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>
+      <span><strong>S/ XX</strong> se reemplaza por el precio del plan que estás vendiendo.</span>
+    </div>
+  </section>
+</main>
+
+<!-- ================= MODAL BLOQUE 1 ================= -->
+<div class="overlay" id="modalPorque" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mp-title">
+    <div class="m-head">
+      <span class="m-num" aria-hidden="true">01</span>
+      <h2 id="mp-title">¿Por qué estamos haciendo esto?</h2>
+      <button class="m-close" data-close aria-label="Cerrar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="m-body" id="porqueBody"></div>
+    <div class="m-foot">
+      <span></span>
+      <button class="btn btn-primary" data-close>Volver al inicio</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODAL PREGUNTA ================= -->
+<div class="overlay" id="modalQ" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mq-title">
+    <div class="m-head">
+      <span class="m-num" id="mq-num" aria-hidden="true">01</span>
+      <h2 id="mq-title"></h2>
+      <button class="m-close" data-close aria-label="Cerrar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="m-body" id="mq-body"></div>
+    <div class="m-foot">
+      <button class="btn btn-ghost" id="qPrev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg><span class="t">Anterior</span></button>
+      <span class="m-pos" id="qPos"></span>
+      <button class="btn btn-ghost" id="qNext"><span class="t">Siguiente</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   CONTENIDO — extraído textualmente del Word
+   "Qué responder - Permanencia y baja (asesores).docx"
+   ========================================================= */
+const CONTENIDO = {
+  porque: {
+    parrafos: [
+      "En las escuchas de campo de esta semana se detectó, en varios socios, que los asesores están ofreciendo la baja para cerrar la venta.",
+      "WIN no tiene permanencia y eso es cierto. Si el cliente pregunta, se le dice. El problema es usarlo como gancho: el cliente contrata pensando en cuándo se va a ir, y se va a los dos meses."
+    ],
+    regla: "Si el cliente no pregunta por la permanencia ni por la baja, no la menciones."
+  },
+  noHacer: [
+    { frase: "“Si no le gusta, puede cancelar”", porque: "Todavía no tiene el servicio instalado y ya le diste la opción de irse." },
+    { frase: "“Pruébelo estos 2 meses, si no le va bien lo da de baja”", porque: "Queda como producto a prueba y a los dos meses lo devuelve." },
+    { frase: "“No tiene nada que perder”", porque: "Le baja el valor a lo que está comprando." },
+    { frase: "“Normalmente pedimos un mínimo de 4 meses”", porque: "Es falso. No existe ningún mínimo. Si el cliente reclama, la llamada está grabada y el reclamo lo perdemos." }
+  ],
+  noHacerResumen: "Las tres primeras empujan al cliente hacia la baja. La cuarta además es información falsa sobre las condiciones de contratación.",
+  /* tipo: "NO" = lo que no debes decir/hacer · "OJO" = consideración a tener en cuenta · null = el Word no incluye alerta */
+  preguntas: [
+    { p: "¿Tiene permanencia? ¿Hay contrato?", r: "“No, no hay permanencia. ¿Le confirmo la dirección para la instalación?”", tipo: "NO", a: "No agregues “así que si no le gusta lo cancela”." },
+    { p: "¿Hay penalidad si me voy?", r: "“No hay penalidad. Y para que lo tenga claro: los dos primeros meses paga S/ 1 y desde el tercero S/ XX.”", tipo: "OJO", a: "El precio del tercer mes se dice en todas las llamadas, pregunte o no pregunte." },
+    { p: "¿Y si a los dos o tres meses quiero darlo de baja?", r: "“Puede hacerlo cuando quiera. Si algo le falla antes, nos llama y mandamos técnico sin costo.”", tipo: "NO", a: "No se la confirmes de una ni le des fechas." },
+    { p: "¿Cuánto tiempo mínimo me tengo que quedar?", r: "“Ninguno. No hay mínimo.”", tipo: "NO", a: "Nunca inventes un número de meses." },
+    { p: "Lo voy a probar nomás y después veo", r: "“Me parece bien. Deme el primer mes completo y usted me dice.”", tipo: "NO", a: "No le confirmes que es una prueba." },
+    { p: "¿Y si no me gusta el servicio?", r: "“Si algo no funciona bien, nos llama y mandamos técnico sin costo.”", tipo: "NO", a: "No ofrezcas la baja como salida." },
+    { p: "¿Y si me mudo?", r: "“Revisamos cobertura en la nueva dirección y le trasladamos el servicio.”", tipo: "NO", a: "No contestes “lo da de baja y listo”." },
+    { p: "Con mi operador me amarran, ¿ustedes igual?", r: "“No. Con nosotros no firma ningún plazo.”", tipo: "NO", a: "No lo cierres con “váyase cuando quiera”." },
+    { p: "¿Qué pasa después de los dos meses de S/ 1?", r: "“Desde el tercer mes paga S/ XX, que es el precio del plan, y se mantiene.”", tipo: "OJO", a: "Si sabes cuánto paga hoy en su operador, compáralo acá." },
+    { p: "¿Y si después no puedo pagar?", r: "“Nos llama antes de dejar de pagar. Siempre hay cómo acomodarlo.”", tipo: "NO", a: "No le digas que dé de baja el servicio." },
+    { p: "¿Tengo que devolver el equipo si me voy?", r: "“El equipo es de WIN. Si algún día se va, pasamos a recogerlo. No hay cobro.”", tipo: "OJO", a: "Si tu socio maneja otra condición de equipo, usa la versión de tu supervisor." },
+    { p: "¿Tengo que firmar algo?", r: "“La conformidad de la instalación. No es un contrato de permanencia.”", tipo: null, a: null },
+    { p: "Déjeme pensarlo / Lo consulto con mi esposa", r: "“Claro. La promoción de S/ 1 es por esta campaña. Le dejo la instalación agendada y si mañana me dice que no, la cancelamos.”", tipo: "OJO", a: "Acá es donde más se usa la frase prohibida para cerrar. Cierra con la promoción." }
+  ]
+};
+
+/* ================== ICONOS ================== */
+const ICO = {
+  ban: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M5.7 5.7l12.6 12.6"/></svg>',
+  warn: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17v.01"/></svg>',
+  chat: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>',
+  help: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.4M12 17v.01"/></svg>',
+  info: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>',
+  arrow: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>'
+};
+
+const $ = s => document.querySelector(s);
+const pad = n => String(n).padStart(2, "0");
+const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const norm = s => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+/* ================== RENDER ================== */
+function renderPorque() {
+  const c = CONTENIDO.porque;
+  $("#porqueBody").innerHTML =
+    c.parrafos.map(p => `<p>${esc(p)}</p>`).join("") +
+    `<div class="rule" role="note">${ICO.warn}<div><span class="tag">La regla</span><p>${esc(c.regla)}</p></div></div>`;
+}
+
+function renderNoHacer() {
+  $("#avoidList").innerHTML = `<div class="avoid-head" aria-hidden="true">
+      <span>${ICO.ban.replace('width="22" height="22"', 'width="14" height="14"')} Evita decir</span><span></span>
+      <span>${ICO.help} ¿Por qué?</span></div>` +
+    CONTENIDO.noHacer.map((it, i) => `
+    <article class="avoid">
+      <div class="avoid-top"><span class="tag">Evita decir</span>
+        <p class="phrase">${ICO.ban}<span>${esc(it.frase)}</span></p>
+      </div>
+      <div class="avoid-link" aria-hidden="true"><span>${i + 1}</span></div>
+      <div class="avoid-why"><span class="tag">¿Por qué?</span>
+        <p>${esc(it.porque)}</p>
+      </div>
+    </article>`).join("");
+  $("#avoidSummary").textContent = CONTENIDO.noHacerResumen;
+}
+
+function renderLista(filtro = "") {
+  const f = norm(filtro.trim());
+  const list = $("#qList");
+  let visibles = 0;
+  list.innerHTML = CONTENIDO.preguntas.map((q, i) => {
+    const texto = norm(q.p);
+    if (f && !texto.includes(f)) return "";
+    visibles++;
+    let label = esc(q.p);
+    if (f) {
+      const idx = texto.indexOf(f);
+      label = esc(q.p.slice(0, idx)) + "<mark>" + esc(q.p.slice(idx, idx + f.length)) + "</mark>" + esc(q.p.slice(idx + f.length));
+    }
+    return `<li><button class="q-item" data-q="${i}" aria-haspopup="dialog">
+      <span class="q-num">${pad(i + 1)}</span>
+      <span class="q-text">${label}</span>
+      <span class="q-arrow">${ICO.arrow}</span>
+    </button></li>`;
+  }).join("");
+  $("#qEmpty").classList.toggle("show", visibles === 0);
+  $("#qCount").textContent = f
+    ? `${visibles} de ${CONTENIDO.preguntas.length} preguntas`
+    : `${CONTENIDO.preguntas.length} preguntas`;
+  $("#searchWrap").classList.toggle("has-text", filtro.length > 0);
+}
+
+let qActual = 0;
+function renderPregunta(i) {
+  qActual = i;
+  const q = CONTENIDO.preguntas[i];
+  $("#mq-num").textContent = pad(i + 1);
+  $("#mq-title").textContent = q.p;
+  const precio = q.r.includes("S/ XX")
+    ? `<div class="price-hint">${ICO.info}<span><strong>S/ XX</strong> se reemplaza por el precio del plan que estás vendiendo.</span></div>` : "";
+  let alerta = "";
+  if (q.a) {
+    const kind = q.tipo === "OJO" ? "ojo" : "";
+    const titulo = q.tipo === "OJO" ? "Ten en cuenta" : "Lo que debes evitar";
+    alerta = `<div class="alert" role="note">
+      <span class="a-ico">${q.tipo === "OJO" ? ICO.warn : ICO.ban}</span>
+      <div><span class="tag">Atención · ${titulo}</span><span class="a-kind ${kind}">${q.tipo}</span>
+      <p>${esc(q.a)}</p></div></div>`;
+  }
+  $("#mq-body").innerHTML = `
+    <div class="answer">
+      <span class="tag">${ICO.chat} Respuesta recomendada</span>
+      <blockquote>${esc(q.r)}</blockquote>
+      ${precio}
+    </div>${alerta}`;
+  $("#mq-body").scrollTop = 0;
+  $("#qPos").textContent = `${i + 1} de ${CONTENIDO.preguntas.length}`;
+  $("#qPrev").disabled = i === 0;
+  $("#qNext").disabled = i === CONTENIDO.preguntas.length - 1;
+}
+
+/* ================== NAVEGACIÓN ================== */
+function irA(vista, push = true) {
+  document.querySelectorAll(".view").forEach(v => v.classList.toggle("active", v.id === "view-" + vista));
+  document.querySelectorAll(".nav [data-go]").forEach(b => {
+    if (b.dataset.go === vista) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
+  });
+  if (push) history.replaceState(null, "", "#" + vista);
+  window.scrollTo({ top: 0 });
+}
+
+/* ================== MODALES ================== */
+let ultimoFoco = null, modalAbierto = null;
+function abrirModal(el) {
+  ultimoFoco = document.activeElement;
+  modalAbierto = el;
+  el.classList.add("open");
+  el.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+  setTimeout(() => el.querySelector(".m-close").focus(), 60);
+}
+function cerrarModal() {
+  if (!modalAbierto) return;
+  modalAbierto.classList.remove("open");
+  modalAbierto.setAttribute("aria-hidden", "true");
+  modalAbierto = null;
+  document.body.style.overflow = "";
+  if (ultimoFoco) ultimoFoco.focus();
+}
+
+document.addEventListener("click", e => {
+  const go = e.target.closest("[data-go]");
+  if (go) { irA(go.dataset.go); return; }
+  const op = e.target.closest("[data-open]");
+  if (op) { abrirModal($("#modalPorque")); return; }
+  const q = e.target.closest("[data-q]");
+  if (q) { renderPregunta(+q.dataset.q); abrirModal($("#modalQ")); return; }
+  if (e.target.closest("[data-close]")) { cerrarModal(); return; }
+  if (e.target.classList.contains("overlay")) cerrarModal();
+});
+
+$("#qPrev").addEventListener("click", () => qActual > 0 && renderPregunta(qActual - 1));
+$("#qNext").addEventListener("click", () => qActual < CONTENIDO.preguntas.length - 1 && renderPregunta(qActual + 1));
+
+document.addEventListener("keydown", e => {
+  if (!modalAbierto) return;
+  if (e.key === "Escape") { cerrarModal(); return; }
+  if (modalAbierto.id === "modalQ" && e.target.tagName !== "INPUT") {
+    if (e.key === "ArrowLeft" && qActual > 0) renderPregunta(qActual - 1);
+    if (e.key === "ArrowRight" && qActual < CONTENIDO.preguntas.length - 1) renderPregunta(qActual + 1);
+  }
+  if (e.key === "Tab") {           // mantener el foco dentro del modal
+    const f = [...modalAbierto.querySelectorAll("button:not(:disabled)")];
+    if (!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+});
+
+$("#search").addEventListener("input", e => renderLista(e.target.value));
+$("#clearSearch").addEventListener("click", () => { $("#search").value = ""; renderLista(); $("#search").focus(); });
+
+/* ================== INICIO ================== */
+renderPorque();
+renderNoHacer();
+renderLista();
+const inicial = location.hash.replace("#", "");
+irA(["inicio", "no-hacer", "preguntas"].includes(inicial) ? inicial : "inicio", false);
+</script>
+</body>
+</html>
