@@ -1,0 +1,872 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WIN en Ruta · Guía para asesores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --orange:#FF5A0A; --orange-soft:#FFE7DA; --black:#0F0908; --yellow:#FFC200; --yellow-soft:#FFF4CC;
+  --white:#FFFFFF; --bg:#FAF7F5; --card:#FFFFFF; --ink:#0F0908; --muted:#5E5552; --line:#ECE5E1;
+  --wa:#1FAF5A; --wa-soft:#E3F6EA; --red:#C62828; --red-soft:#FDE6E6;
+  --ease:cubic-bezier(.65,0,.25,1);
+  --fh:"Panton Black Caps","Panton","Nunito",system-ui,sans-serif;
+  --fb:"MADE Tommy Soft","Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:120px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--fb);font-size:16px;line-height:1.55;position:relative;overflow-x:hidden}
+h1,h2,h3{font-family:var(--fh);font-weight:900;margin:0;letter-spacing:.01em}
+h2{font-size:clamp(1.5rem,3.2vw,2.2rem);text-transform:uppercase;line-height:1.1}
+h3{font-size:1.05rem}
+p{margin:.4em 0}
+button{font-family:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+@media (max-width:600px){.wrap{padding:0 16px}}
+
+/* ---------- Header ---------- */
+.top{position:sticky;top:0;z-index:50;background:var(--black);color:#fff;box-shadow:0 2px 14px rgba(0,0,0,.25)}
+.top-row{display:flex;align-items:center;gap:14px;padding:10px 20px;max-width:1120px;margin:0 auto}
+.brand{display:flex;align-items:baseline;gap:6px;white-space:nowrap;text-decoration:none;color:#fff}
+.brand b{font-family:var(--fh);font-weight:900;color:var(--orange);font-size:1.35rem;letter-spacing:.02em}
+.brand span{font-weight:800}
+.brand small{color:#bfb5b1;font-weight:600;margin-left:6px}
+.search{position:relative;flex:1;max-width:460px;margin-left:auto}
+.search input{width:100%;padding:10px 14px 10px 38px;border-radius:999px;border:2px solid transparent;background:#241d1b;color:#fff;font:inherit;font-size:.95rem;outline:none}
+.search input:focus{border-color:var(--orange);background:#1a1413}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.7}
+.search kbd{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:.72rem;color:#9d928e;border:1px solid #4a403d;border-radius:5px;padding:0 6px}
+.search input:not(:placeholder-shown)~kbd{display:none}
+.results{position:absolute;top:calc(100% + 8px);left:0;right:0;background:#fff;color:var(--ink);border-radius:14px;box-shadow:0 14px 40px rgba(0,0,0,.25);overflow:hidden;display:none;max-height:70vh;overflow-y:auto}
+.results.open{display:block}
+.results button{display:block;width:100%;text-align:left;border:0;background:none;padding:10px 14px;border-bottom:1px solid var(--line);cursor:pointer}
+.results button:hover,.results button.act{background:var(--orange-soft)}
+.results .rs{font-size:.72rem;font-weight:800;text-transform:uppercase;color:var(--orange);letter-spacing:.05em}
+.results .rt{display:block;font-weight:700}
+.results .empty{padding:14px;color:var(--muted)}
+.tbtn{border:1px solid #4a403d;background:transparent;color:#fff;border-radius:999px;padding:8px 12px;font-size:.82rem;font-weight:700;cursor:pointer;white-space:nowrap}
+.tbtn:hover{border-color:var(--orange);color:var(--orange)}
+.nav{display:flex;gap:6px;overflow-x:auto;padding:0 20px 10px;max-width:1120px;margin:0 auto;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav a{flex:none;color:#d9d0cc;text-decoration:none;font-size:.82rem;font-weight:700;padding:6px 12px;border-radius:999px;transition:background .3s,color .3s}
+.nav a:hover{color:#fff}
+.nav a.cur{background:var(--orange);color:#fff}
+@media (max-width:760px){.brand small,.search kbd,.tbtn .lbl{display:none}.top-row{gap:10px;padding:10px 16px}.nav{padding:0 16px 10px}}
+
+/* ---------- Sections ---------- */
+section{padding:72px 0;position:relative}
+section+section{border-top:1px solid var(--line)}
+.eyebrow{display:inline-block;font-size:.75rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);margin-bottom:8px}
+.sec-head{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:28px}
+.sec-head p{color:var(--muted);max-width:620px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
+.tag{display:inline-block;font-size:.72rem;font-weight:800;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.t-atc{background:var(--wa-soft);color:#11713A}
+.t-esp{background:var(--orange-soft);color:#B53B00}
+.t-pend{background:#EFEAE7;color:#5E5552}
+.t-seg{background:var(--red-soft);color:var(--red)}
+.validar{display:inline-block;font-size:.68rem;font-weight:800;padding:2px 8px;border-radius:6px;background:var(--yellow-soft);color:#7A5A00;border:1px dashed #E0AE00;margin-left:6px;vertical-align:middle}
+
+/* reveal chain */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s var(--ease);transition-delay:calc(var(--i,0)*85ms)}
+.in .rv{opacity:1;transform:none}
+body.static .rv{opacity:1;transform:none;transition:none}
+
+/* ---------- Shapes (anchor + morph share them) ---------- */
+.shape{display:flex;align-items:center;justify-content:center;gap:8px;font-weight:800;font-size:.95rem;line-height:1.1;text-align:center;flex:none}
+.shape-pin{width:56px;height:56px;border-radius:50%;background:var(--orange);color:#fff;box-shadow:0 0 0 8px rgba(255,90,10,.22)}
+.shape-pill{width:184px;height:46px;border-radius:23px;background:var(--yellow);color:var(--black)}
+.shape-bubble{width:244px;height:62px;border-radius:18px 18px 18px 4px;background:#fff;color:var(--black);box-shadow:0 10px 26px rgba(15,9,8,.14);justify-content:flex-start;padding:0 14px;text-align:left;font-size:.82rem}
+.shape-help{width:214px;height:52px;border-radius:26px;background:var(--orange);color:#fff;box-shadow:0 10px 24px rgba(255,90,10,.35)}
+.shape-code{width:232px;height:88px;border-radius:18px;background:var(--black);color:var(--yellow);flex-direction:column;gap:4px}
+.shape-headset{width:64px;height:64px;border-radius:20px;background:var(--black);color:var(--orange)}
+.shape-faq{width:64px;height:64px;border-radius:50%;background:var(--yellow);color:var(--black);font-size:1.9rem;font-family:var(--fh)}
+.shape .dotlive{width:10px;height:10px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 0 rgba(255,90,10,.6);animation:live 1.6s infinite}
+@keyframes live{70%{box-shadow:0 0 0 9px rgba(255,90,10,0)}100%{box-shadow:0 0 0 0 rgba(255,90,10,0)}}
+.shape-bubble .wa{width:32px;height:32px;border-radius:50%;background:var(--wa);display:grid;place-items:center;color:#fff;flex:none}
+.shape-bubble small{display:block;color:var(--muted);font-weight:600;font-size:.72rem}
+.shape-code small{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:#cfc4bf;font-weight:800}
+.digits{display:flex;gap:8px}
+.digits span{display:grid;place-items:center;width:34px;height:40px;border-radius:8px;background:#2a2220;font-family:var(--fh);font-size:1.4rem;color:var(--yellow)}
+
+.anchor{transition:opacity .2s}
+body.motion .anchor{opacity:0}
+body.motion .anchor.on{opacity:1}
+
+.morph{position:absolute;top:0;left:0;z-index:20;pointer-events:none;display:none;
+  transition:top .85s var(--ease),left .85s var(--ease),width .85s var(--ease),height .85s var(--ease),border-radius .85s var(--ease),background-color .85s var(--ease),color .85s var(--ease),box-shadow .85s var(--ease),padding .85s var(--ease)}
+body.motion .morph{display:flex}
+.morph .mc{display:contents}
+.morph>*{transition:opacity .22s}
+.morph.swap>*{opacity:0}
+.morph.land{animation:land .45s var(--ease)}
+@keyframes land{40%{transform:scale(1.08)}100%{transform:scale(1)}}
+
+/* ---------- Hero ---------- */
+#inicio{background:var(--black);color:#fff;padding:64px 0 80px;border:0;overflow:hidden}
+#inicio::after{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(255,90,10,.28),transparent 70%)}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;position:relative;z-index:1}
+.hero h1{font-size:clamp(2.6rem,7vw,4.6rem);text-transform:uppercase;line-height:.95}
+.hero h1 b{color:var(--orange)}
+.hero .sub{font-size:1.1rem;color:#e6deda;max-width:520px;margin-top:14px}
+.hero .obj{margin-top:22px;border-left:4px solid var(--yellow);padding:4px 0 4px 14px;color:#cfc4bf;font-size:.95rem;max-width:540px}
+.hero .obj b{color:#fff}
+.hero-ctas{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:12px 20px;font-weight:800;text-decoration:none;border:2px solid var(--orange);cursor:pointer;font-size:.95rem}
+.btn-o{background:var(--orange);color:#fff}
+.btn-g{background:transparent;color:#fff;border-color:#4a403d}
+.btn-g:hover{border-color:#fff}
+.route-wrap{position:relative;aspect-ratio:4/3;max-width:440px;width:100%;justify-self:center}
+.route-wrap svg.map{position:absolute;inset:0;width:100%;height:100%}
+.route-path{fill:none;stroke:var(--orange);stroke-width:5;stroke-linecap:round;stroke-dasharray:900;stroke-dashoffset:900}
+.route-shadow{fill:none;stroke:#2a2220;stroke-width:14;stroke-linecap:round}
+.drawn .route-path{transition:stroke-dashoffset 1.3s var(--ease);stroke-dashoffset:0}
+body.static .route-path{stroke-dashoffset:0}
+.house{position:absolute;right:4%;top:4%;width:22%;}
+.route-wrap .anchor{position:absolute;transform:translate(-50%,-50%)}
+.a-start{left:9%;top:84%}
+.a-end{left:73%;top:30%}
+.eta{position:absolute;left:4%;top:4%;background:#1f1816;border:1px solid #3a302d;border-radius:14px;padding:10px 14px;font-size:.8rem;color:#cfc4bf}
+.eta b{display:block;color:#fff;font-size:1rem}
+@media (max-width:820px){.hero{grid-template-columns:1fr}.route-wrap{max-width:360px}}
+
+/* ---------- Qué es ---------- */
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.feat .ic{width:44px;height:44px;border-radius:12px;background:var(--orange-soft);color:var(--orange);display:grid;place-items:center;margin-bottom:12px}
+.feat h3{margin-bottom:6px}
+.feat p{color:var(--muted);font-size:.93rem}
+.states{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.states span{font-size:.74rem;font-weight:800;padding:4px 9px;border-radius:999px;background:#F3EEEB}
+.states span:nth-child(3){background:var(--yellow)}
+@media (max-width:900px){.features{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){.features{grid-template-columns:1fr}}
+
+/* ---------- Experiencia ---------- */
+.journey{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-top:34px}
+.track{position:absolute;left:8%;right:8%;top:14px;height:6px;border-radius:3px;background:var(--line)}
+.track i{position:absolute;inset:0;border-radius:3px;background:var(--orange);transform:scaleX(0);transform-origin:left;transition:transform 1.8s var(--ease) .35s}
+.in .track i,body.static .track i{transform:scaleX(1)}
+body.static .track i{transition:none}
+.step{position:relative;text-align:center}
+.step .n{width:34px;height:34px;border-radius:50%;background:var(--black);color:#fff;font-weight:900;display:grid;place-items:center;margin:-37px auto 12px;border:4px solid var(--bg)}
+.step h3{font-size:.95rem;margin-bottom:4px}
+.step p{font-size:.86rem;color:var(--muted)}
+.step.key .n{background:var(--orange)}
+@media (max-width:860px){
+  .journey{grid-template-columns:1fr;padding:0 0 0 46px;gap:20px}
+  .track{left:17px;right:auto;top:6px;bottom:6px;width:6px;height:auto}
+  .track i{transform:scaleY(0);transform-origin:top}
+  .in .track i,body.static .track i{transform:scaleY(1)}
+  .step{text-align:left}
+  .step .n{position:absolute;left:-46px;top:-4px;margin:0}
+}
+
+/* ---------- Protocolo ---------- */
+.principle{background:var(--black);color:#fff;border-radius:18px;padding:18px 22px;display:flex;gap:14px;align-items:flex-start;margin-bottom:26px}
+.principle b{color:var(--yellow)}
+.proto{display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:start}
+.flow{display:flex;flex-direction:column;gap:0}
+.fstep{display:flex;gap:14px;align-items:flex-start;position:relative;padding-bottom:18px}
+.fstep::before{content:"";position:absolute;left:17px;top:36px;bottom:0;width:2px;background:var(--line)}
+.fstep:last-child::before{display:none}
+.fstep .n{width:36px;height:36px;flex:none;border-radius:50%;background:var(--black);color:#fff;font-weight:900;display:grid;place-items:center}
+.fstep h3{font-size:1rem}
+.fstep p{color:var(--muted);font-size:.9rem;margin:2px 0 0}
+.decision{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.decision div{border-radius:12px;padding:10px 12px;font-size:.86rem}
+.decision .si{background:var(--wa-soft)}
+.decision .no{background:var(--orange-soft)}
+.decision b{display:block}
+.fstep.esp .n{background:var(--orange)}
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px;font-size:.8rem;font-weight:800}
+.chain span{background:#F3EEEB;border-radius:8px;padding:4px 8px}
+.chain em{color:var(--orange);font-style:normal}
+.speech-box{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.speech-box .hd{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line);font-weight:800;font-size:.9rem}
+.speech-box .bd{padding:18px;font-size:1rem}
+.help-stage{display:flex;justify-content:center;padding:22px 0 6px}
+.warn{margin-top:16px;border-radius:14px;padding:14px 16px;background:var(--yellow-soft);border:1px solid #F1D57A;font-size:.9rem}
+.warn b{display:block;margin-bottom:2px}
+.pend{margin-top:10px;border-radius:14px;padding:12px 16px;background:#F3EEEB;font-size:.88rem;color:var(--muted)}
+@media (max-width:860px){.proto{grid-template-columns:1fr}}
+
+/* copy */
+.copy{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;font-size:.8rem;font-weight:800;cursor:pointer;color:var(--ink)}
+.copy:hover{border-color:var(--orange);color:var(--orange)}
+.copy.ok{background:var(--wa);border-color:var(--wa);color:#fff}
+
+/* ---------- Código ---------- */
+.prio{display:inline-flex;align-items:center;gap:6px;background:var(--red-soft);color:var(--red);font-weight:900;font-size:.75rem;padding:5px 12px;border-radius:999px;text-transform:uppercase;letter-spacing:.06em}
+.code-stage{display:flex;flex-direction:column;align-items:center}
+.code-lines{width:100%;max-width:620px;height:56px;display:block}
+.code-lines path{fill:none;stroke:var(--orange);stroke-width:2.5;stroke-dasharray:6 6;stroke-dashoffset:0}
+.code-lines .cl{stroke-dasharray:200;stroke-dashoffset:200;transition:stroke-dashoffset 1s var(--ease) .5s}
+.in .code-lines .cl,body.static .code-lines .cl{stroke-dashoffset:0}
+.places{display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%;max-width:760px}
+.place .lb{font-size:.72rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
+.place.wa .lb{color:var(--wa)}
+.place.wr .lb{color:var(--orange)}
+.place h3{margin:4px 0}
+.place p{color:var(--muted);font-size:.92rem}
+.purpose{max-width:760px;width:100%;margin-top:16px;background:var(--black);color:#fff;border-radius:16px;padding:16px 20px;font-size:.95rem}
+.purpose b{color:var(--yellow)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px}
+.sp{background:#fff;border:1px solid var(--line);border-radius:18px;display:flex;flex-direction:column}
+.sp .hd{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line)}
+.sp .hd span{font-weight:900;font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;gap:8px}
+.sp .hd .vz{color:var(--black)}
+.sp .hd .dg{color:var(--wa)}
+.sp .bd{padding:16px;white-space:pre-line;font-size:.97rem;flex:1}
+.sp.digital .bd{background:#F2FBF5;border-radius:0 0 18px 18px}
+@media (max-width:700px){.places,.pair{grid-template-columns:1fr}}
+
+/* ---------- Speeches ---------- */
+.lib{display:grid;grid-template-columns:300px 1fr;gap:20px;align-items:start}
+.motives{display:flex;flex-direction:column;gap:6px;position:sticky;top:130px}
+.motives button{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;border:1px solid var(--line);background:#fff;border-radius:14px;padding:10px 14px;cursor:pointer;font-weight:800;font-size:.92rem;color:var(--ink);transition:border-color .2s,transform .2s}
+.motives button:hover{border-color:var(--orange)}
+.motives button.sel{border-color:var(--orange);box-shadow:inset 4px 0 0 var(--orange)}
+.motive-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 12px;font-size:.78rem;font-weight:800;cursor:pointer}
+.chip.on{background:var(--black);color:#fff;border-color:var(--black)}
+.panel h3{font-size:1.4rem;text-transform:uppercase}
+.panel .meta{display:flex;gap:8px;align-items:center;margin:6px 0 4px;flex-wrap:wrap}
+.panel .note{margin-top:14px;font-size:.9rem;background:#F3EEEB;border-radius:12px;padding:10px 14px;color:var(--muted)}
+.panel .note.seg{background:var(--red-soft);color:var(--red);font-weight:700}
+.panel .pair{margin-top:14px}
+.panel-anim{animation:pin .4s var(--ease)}
+@keyframes pin{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+.speech-print{display:none}
+.lib>*{min-width:0}
+@media (max-width:860px){.lib{grid-template-columns:minmax(0,1fr)}.motives{position:static;flex-direction:row;overflow-x:auto;padding-bottom:4px}.motives button{flex:none;width:220px}}
+
+/* ---------- FAQ ---------- */
+.faq{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.faq details{background:#fff;border:1px solid var(--line);border-radius:14px;transition:border-color .2s}
+.faq details[open]{border-color:var(--orange)}
+.faq summary{list-style:none;cursor:pointer;padding:14px 44px 14px 16px;font-weight:800;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--orange);transition:transform .3s}
+.faq details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.faq .ans{padding:0 16px 14px;color:var(--muted);font-size:.94rem}
+@media (max-width:760px){.faq{grid-template-columns:1fr}}
+
+.faq details.wide{grid-column:1/-1}
+.faq summary .prio{margin-left:8px;vertical-align:middle;font-size:.66rem;padding:3px 9px}
+.faq-code{display:flex;flex-direction:column;align-items:center;padding:18px 0 4px}
+.faq-code .places .card{text-align:left}
+details .code-lines .cl{stroke-dasharray:200;stroke-dashoffset:200;transition:stroke-dashoffset 1s var(--ease) .35s}
+details[open] .code-lines .cl{stroke-dashoffset:0}
+details[open] .faq-code .digits span{animation:dpop .45s var(--ease) backwards}
+details[open] .faq-code .digits span:nth-child(2){animation-delay:.08s}
+details[open] .faq-code .digits span:nth-child(3){animation-delay:.16s}
+details[open] .faq-code .digits span:nth-child(4){animation-delay:.24s}
+details[open] .faq-code .places .card{animation:pin .5s var(--ease) .5s backwards}
+@keyframes dpop{from{opacity:0;transform:translateY(-10px) scale(.8)}}
+body.static details .code-lines .cl{transition:none}
+body.static details[open] .faq-code *{animation:none!important}
+.faq-link{margin-top:14px;font-size:.85rem;font-weight:800;color:var(--orange)}
+/* ---------- Matriz ---------- */
+.mfilter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+table.mx{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.mx th{text-align:left;background:var(--black);color:#fff;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;padding:12px 16px}
+.mx td{padding:12px 16px;border-top:1px solid var(--line);font-size:.93rem;vertical-align:top}
+.mx td:first-child{font-weight:800}
+.mx tr.hide{display:none}
+.mx tr.flash td{animation:flash 1.6s}
+@keyframes flash{0%,40%{background:var(--orange-soft)}100%{background:transparent}}
+.rule{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;margin-top:28px;background:var(--black);color:#fff;border-radius:20px;padding:24px}
+.rule h3{font-size:1.3rem;text-transform:uppercase;color:var(--yellow)}
+.rule p{color:#d9d0cc}
+@media (max-width:700px){
+  table.mx,.mx tbody,.mx tr,.mx td{display:block;width:100%}
+  .mx thead{display:none}
+  .mx tr{border-top:1px solid var(--line);padding:10px 0}
+  .mx td{border:0;padding:4px 16px}
+  .mx td:nth-child(2)::before{content:"Acción: ";font-weight:800;color:var(--ink)}
+  .rule{grid-template-columns:1fr;justify-items:start}
+}
+
+footer{background:var(--black);color:#bfb5b1;padding:28px 0;font-size:.85rem}
+footer b{color:#fff}
+.hl{animation:flash 1.8s}
+
+/* toast */
+.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,30px);opacity:0;background:var(--black);color:#fff;padding:10px 18px;border-radius:999px;font-weight:800;font-size:.9rem;z-index:60;transition:.3s var(--ease);pointer-events:none}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- Print ---------- */
+@media print{
+  .top,.morph,.toast,.hero-ctas,.motive-filter,.mfilter,.copy,.motives,.panel{display:none!important}
+  body{background:#fff}
+  section{padding:24px 0;break-inside:auto}
+  .rv{opacity:1!important;transform:none!important}
+  .anchor{opacity:1!important}
+  .route-path{stroke-dashoffset:0!important}
+  .track i,.code-lines .cl{transform:none!important;stroke-dashoffset:0!important}
+  .speech-print{display:block}
+  .speech-print .item{break-inside:avoid;margin-bottom:18px}
+  .lib{display:block}
+  .card,.sp,details{break-inside:avoid}
+  #inicio{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-row">
+    <a class="brand" href="#inicio"><b>WIN</b><span>en Ruta</span><small>Guía para asesores</small></a>
+    <div class="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Buscar: código, no llega, reprogramar…" autocomplete="off" aria-label="Buscar en la guía">
+      <kbd>/</kbd>
+      <div class="results" id="results" role="listbox"></div>
+    </div>
+    <button class="tbtn" id="motionBtn" title="Activar o desactivar animaciones"><span class="ico">✦</span> <span class="lbl" id="motionLbl">Animaciones</span></button>
+  </div>
+  <nav class="nav" id="nav">
+    <a href="#inicio">Inicio</a>
+    <a href="#que-es">¿Qué es?</a>
+    <a href="#experiencia">Experiencia del cliente</a>
+    <a href="#protocolo">Protocolo</a>
+    <a href="#speeches">Speeches</a>
+    <a href="#faq">Preguntas frecuentes</a>
+    <a href="#matriz">Qué hacer en cada caso</a>
+  </nav>
+</header>
+
+<div class="morph shape" id="morph" aria-hidden="true"></div>
+
+<!-- ===== HERO ===== -->
+<section id="inicio" data-scene>
+  <div class="wrap hero">
+    <div>
+      <span class="eyebrow rv">Guía operativa · Voz y Digital · Instalaciones y Visitas Técnicas</span>
+      <h1 class="rv"><b>WIN</b><br>en Ruta</h1>
+      <p class="sub rv">Una experiencia de mayor información, seguridad y confianza: el cliente conoce el estado de su instalación o visita técnica, identifica al técnico asignado y sigue su recorrido hasta el domicilio.</p>
+      <p class="obj rv"><b>Objetivo:</b> preparar a los asesores para orientar al cliente en el uso de WIN en Ruta, resolver consultas frecuentes, promover la autoatención y canalizar las incidencias hacia los equipos especializados desde la propia herramienta.</p>
+      <div class="hero-ctas rv">
+        <a class="btn btn-o" href="#speeches">Ir a speeches</a>
+        <a class="btn btn-g" href="#matriz">Qué hacer en cada caso</a>
+      </div>
+    </div>
+    <div class="route-wrap rv" id="routeWrap">
+      <svg class="map" viewBox="0 0 400 300" aria-hidden="true">
+        <g stroke="#1f1816" stroke-width="1">
+          <path d="M0 60H400M0 130H400M0 200H400M0 260H400M70 0V300M160 0V300M250 0V300M340 0V300"/>
+        </g>
+        <path class="route-shadow" d="M36 252 C 90 250, 110 200, 150 196 S 200 230, 230 180 S 250 110, 292 92"/>
+        <path class="route-path" id="routePath" d="M36 252 C 90 250, 110 200, 150 196 S 200 230, 230 180 S 250 110, 292 92"/>
+      </svg>
+      <svg class="house" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 30 32 10l24 20v24a4 4 0 0 1-4 4H12a4 4 0 0 1-4-4Z" fill="#fff"/><path d="M26 58V40h12v18" fill="#FF5A0A"/></svg>
+      <div class="eta"><span>Hora estimada de llegada</span><b>En camino · 10:40</b></div>
+      <div class="anchor shape shape-pin a-start" data-ghost aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>
+      </div>
+      <div class="anchor shape shape-pin a-end" data-anchor aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== QUÉ ES ===== -->
+<section id="que-es" data-scene>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">01 · Lo esencial</span>
+        <h2>¿Qué debe saber todo asesor?</h2>
+        <p>WIN en Ruta es una herramienta de seguimiento para clientes con una instalación de internet o una visita técnica programada. Se accede desde el enlace enviado por WhatsApp, <b>sin instalar ninguna aplicación</b>.</p>
+      </div>
+      <div class="anchor shape shape-pill" data-anchor aria-hidden="true"><span class="dotlive"></span> En camino</div>
+    </div>
+    <div class="features">
+      <article class="card feat rv" data-s="Estado de la visita etapas agendada técnico asignado en camino iniciada finalizada">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 12h4l2-5 4 10 2-5h4"/></svg></div>
+        <h3>1. Estado de la visita</h3>
+        <p>Cinco etapas consultables:</p>
+        <div class="states"><span>Agendada</span><span>Técnico asignado</span><span>En camino</span><span>Iniciada</span><span>Finalizada</span></div>
+      </article>
+      <article class="card feat rv" data-s="Identificación del técnico nombre foto valoración">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div>
+        <h3>2. Identificación del técnico</h3>
+        <p>Nombre, fotografía, identificación parcialmente oculta y valoración del técnico asignado.</p>
+      </article>
+      <article class="card feat rv" data-s="Seguimiento en el mapa recorrido hora estimada">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3Z"/><path d="M9 3v15M15 6v15"/></svg></div>
+        <h3>3. Seguimiento en el mapa</h3>
+        <p>Cuando el técnico está <b>en camino</b>, el cliente ve su recorrido y la hora estimada de llegada.</p>
+      </article>
+      <article class="card feat rv" data-s="Código de seguimiento cuatro dígitos">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="3" y="6" width="18" height="12" rx="3"/><path d="M7 12h.01M11 12h.01M15 12h.01M19 12h.01"/></svg></div>
+        <h3>4. Código de seguimiento</h3>
+        <p>Cuatro dígitos, disponibles en el mensaje de WhatsApp y en WIN en Ruta. El cliente lo brinda al técnico al llegar para <b>iniciar la atención</b>.</p>
+      </article>
+      <article class="card feat rv" data-s="Información de la cita fecha rango horario dirección paquete">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></div>
+        <h3>5. Información de la cita</h3>
+        <p>Fecha, rango horario y dirección. En instalaciones, también los datos del paquete de internet contratado.</p>
+      </article>
+      <article class="card feat rv" data-s="Ayuda especializada necesitas ayuda alerta pool">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5h.01"/></svg></div>
+        <h3>6. Ayuda especializada</h3>
+        <p>«¿Necesitas ayuda?», al final de WIN en Ruta, lleva al cliente a la <b>misma conversación de WhatsApp</b> y activa una alerta interna al pool de Instalaciones o Visitas Técnicas.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EXPERIENCIA ===== -->
+<section id="experiencia" data-scene>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">02 · Recorrido del cliente</span>
+        <h2>¿Cómo funciona la experiencia?</h2>
+        <p>Seis momentos, desde el primer mensaje hasta la llegada del técnico.</p>
+      </div>
+      <div class="anchor shape shape-bubble" data-anchor aria-hidden="true">
+        <span class="wa"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3Z"/></svg></span>
+        <span>Tu visita está agendada<small>Toca para abrir WIN en Ruta</small></span>
+      </div>
+    </div>
+    <div class="journey">
+      <div class="track"><i></i></div>
+      <div class="step rv"><div class="n">1</div><h3>Recibe el WhatsApp</h3><p>Fecha, horario, dirección, código de seguimiento y acceso a WIN en Ruta.</p></div>
+      <div class="step rv"><div class="n">2</div><h3>Ingresa a WIN en Ruta</h3><p>Consulta los datos de su atención y el estado de la visita.</p></div>
+      <div class="step rv"><div class="n">3</div><h3>Conoce al técnico</h3><p>Visualiza sus datos y fotografía.</p></div>
+      <div class="step rv"><div class="n">4</div><h3>Sigue el recorrido</h3><p>Con el técnico en camino, ve la ruta y la hora estimada de llegada.</p></div>
+      <div class="step key rv"><div class="n">5</div><h3>Recibe al técnico</h3><p>Le brinda el código de 4 dígitos para iniciar la atención.</p></div>
+      <div class="step key rv"><div class="n">6</div><h3>Pide ayuda si la necesita</h3><p>Usa «¿Necesitas ayuda?» para activar la atención especializada por WhatsApp.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROTOCOLO ===== -->
+<section id="protocolo" data-scene>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">03 · Protocolo general Voz y Digital</span>
+        <h2>Resolver primero, canalizar después</h2>
+      </div>
+    </div>
+    <div class="principle rv">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFC200" stroke-width="2.4" stroke-linecap="round" style="flex:none"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4"/></svg>
+      <div><b>Principio operativo:</b> resolver las dudas de navegación en primera línea y utilizar el flujo de ayuda de WIN en Ruta para los casos que requieren intervención especializada.</div>
+    </div>
+    <div class="proto">
+      <div class="flow">
+        <div class="fstep rv"><div class="n">1</div><div><h3>Identificar la consulta</h3><p>¿Instalación o visita técnica? ¿Cuál es el motivo específico?</p></div></div>
+        <div class="fstep rv"><div class="n">2</div><div><h3>Orientar al cliente</h3><p>Guiarlo al enlace de WIN en Ruta recibido por WhatsApp.</p></div></div>
+        <div class="fstep rv"><div class="n">3</div><div><h3>Resolver la consulta</h3><p>Explicar códigos, estados, horarios, mapa o técnico asignado.</p></div></div>
+        <div class="fstep rv"><div class="n">4</div><div><h3>¿El cliente resolvió su necesidad?</h3>
+          <div class="decision"><div class="si"><b>Sí</b>Confirmar la solución y cerrar.</div><div class="no"><b>No</b>Guiarlo a «¿Necesitas ayuda?».</div></div></div></div>
+        <div class="fstep esp rv"><div class="n">5</div><div><h3>Activar atención especializada</h3>
+          <div class="chain"><span>WIN en Ruta</span><em>→</em><span>¿Necesitas ayuda?</span><em>→</em><span>WhatsApp</span><em>→</em><span>Alerta al pool VT / Instalaciones</span></div></div></div>
+      </div>
+      <div>
+        <div class="help-stage">
+          <div class="anchor shape shape-help" data-anchor aria-hidden="true">¿Necesitas ayuda?</div>
+        </div>
+        <div class="speech-box rv">
+          <div class="hd"><span>Speech de orientación a atención especializada</span><button class="copy" data-copy="#sp-help">Copiar</button></div>
+          <div class="bd" id="sp-help">Para ayudarte, ingresa a WIN en Ruta y desliza hasta la parte inferior, donde encontrarás la opción «¿Necesitas ayuda?» y nuestro equipo especializado recibirá una alerta para atender tu caso por ese mismo canal.</div>
+        </div>
+        <div class="warn rv"><b>Importante para el asesor</b>No pedir al cliente que inicie una nueva conversación ni hacer una transferencia manual cuando puede usar el flujo de ayuda de WIN en Ruta.</div>
+        <div class="pend rv"><b>Pendiente de definición:</b> si el propio acceso a WIN en Ruta falla, se aplicará una ruta de contingencia interna que aún no está definida.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SPEECHES ===== -->
+<section id="speeches" data-scene>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">04 · Biblioteca</span>
+        <h2>Speeches por motivo de contacto</h2>
+        <p>Selecciona el motivo. Cada uno trae el speech de Voz y la plantilla Digital, lista para copiar.</p>
+      </div>
+      <div class="anchor shape shape-headset" data-anchor aria-hidden="true">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/><path d="M19 20a3 3 0 0 1-3 2h-3"/></svg>
+      </div>
+    </div>
+    <div class="lib rv">
+      <div>
+        <div class="motive-filter" id="motiveFilter">
+          <button class="chip on" data-f="all">Todos</button>
+          <button class="chip" data-f="atc">Resuelve ATC</button>
+          <button class="chip" data-f="esp">Especializada</button>
+        </div>
+        <div class="motives" id="motives" role="tablist"></div>
+      </div>
+      <div class="panel" id="panel" aria-live="polite"></div>
+    </div>
+    <div class="speech-print" id="speechPrint"></div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section id="faq" data-scene>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">05 · Preguntas frecuentes</span>
+        <h2>Lo que más preguntan los clientes</h2>
+      </div>
+      <div class="anchor shape shape-faq" data-anchor aria-hidden="true">?</div>
+    </div>
+    <div class="faq" id="faqList"></div>
+  </div>
+</section>
+
+<!-- ===== MATRIZ ===== -->
+<section id="matriz" data-scene>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">06 · Ruta de atención</span>
+        <h2>¿Qué hago en cada caso?</h2>
+        <p>Ubica el motivo del cliente y sigue la acción: resuélvelo tú en la llamada o el chat, o guíalo a «¿Necesitas ayuda?».</p>
+      </div>
+    </div>
+    <div class="mfilter" id="mFilter">
+      <button class="chip on" data-f="all">Todos</button>
+      <button class="chip" data-f="atc">Resuelve ATC</button>
+      <button class="chip" data-f="esp">Pool VT / Instalaciones</button>
+      <button class="chip" data-f="seg">Seguridad</button>
+    </div>
+    <table class="mx rv">
+      <thead><tr><th>Motivo de contacto</th><th>Acción del asesor</th><th>¿Quién lo resuelve?</th></tr></thead>
+      <tbody id="mBody"></tbody>
+    </table>
+    <div class="rule rv">
+      <div class="anchor shape shape-help" data-anchor aria-hidden="true">¿Necesitas ayuda?</div>
+      <div>
+        <h3>Regla esencial</h3>
+        <p>«¿Necesitas ayuda?» es el acceso a la atención especializada. El cliente continúa por el mismo WhatsApp mientras internamente se genera una alerta al equipo correspondiente. Conocer este funcionamiento permite explicarlo bien y <b style="color:#fff">evitar transferencias innecesarias</b>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <b>WIN en Ruta · Guía operativa para asesores de Voz y Digital</b><br>
+    Los contenidos marcados «Por validar» y «Pendiente» deben confirmarse con el área responsable antes de su difusión.
+  </div>
+</footer>
+
+<div class="toast" id="toast">Copiado</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ===================== DATA ===================== */
+var TAGS={atc:["Resuelve ATC","t-atc"],esp:["Pool VT / Instalaciones","t-esp"],pend:["Pendiente de protocolo","t-pend"],seg:["Atención prioritaria","t-seg"]};
+
+var HELP_VOZ="Para ayudarte, ingresa a WIN en Ruta y desliza hasta la parte inferior, donde encontrarás la opción «¿Necesitas ayuda?» y nuestro equipo especializado recibirá una alerta para atender tu caso por ese mismo canal.";
+var HELP_DIG="Para ayudarte, ingresa a WIN en Ruta y desliza hasta la parte inferior, donde encontrarás la opción «¿Necesitas ayuda?» y nuestro equipo especializado recibirá una alerta para atender tu caso por ese mismo canal.";
+
+var SPEECHES=[
+ {id:"que-es",t:"¿Qué es WIN en Ruta?",tag:"atc",
+  voz:"WIN en Ruta es una herramienta con la que puedes consultar el estado de tu instalación o visita técnica, conocer quién te atenderá y seguir el recorrido del técnico cuando esté en camino.",
+  dig:"¡Hola! 👋 Con WIN en Ruta puedes consultar el estado de tu instalación o visita técnica, conocer al técnico asignado y seguir su recorrido cuando esté en camino."},
+ {id:"enlace",t:"No encuentra el enlace",tag:"atc",v:1,
+  voz:"Te enviamos el acceso a WIN en Ruta por WhatsApp, en el mismo mensaje donde te informamos sobre tu visita. Abre ese mensaje y selecciona el enlace: se abre directamente, sin descargar ninguna aplicación. ¿Lograste ingresar?",
+  dig:"¡Claro! 👋 El acceso a WIN en Ruta está en el mensaje de WhatsApp donde te informamos sobre tu visita. Solo toca el enlace: se abre directamente, sin descargar ninguna aplicación."},
+ {id:"codigo",t:"No encuentra el código",tag:"atc",
+  voz:"Claro, te ayudo a encontrarlo. Tienes dos opciones: en el mensaje de WhatsApp donde te informamos sobre tu visita, busca «Código de seguimiento».\nTambién puedes ingresar a WIN en Ruta y encontrarlo en el recuadro con ese mismo nombre.\nSon cuatro números que deberás brindarle al técnico cuando llegue a tu domicilio para iniciar la atención.\n¿Lograste encontrarlo?",
+  dig:"¡Claro! 👋 Puedes encontrar tu código de seguimiento de 4 dígitos en dos lugares:\n1. En el mensaje de WhatsApp donde te informamos sobre tu visita.\n2. En WIN en Ruta, dentro del recuadro «Código de seguimiento».\nCuando el técnico llegue a tu domicilio, deberás brindarle ese código para iniciar la atención."},
+ {id:"tecnico",t:"Quiere identificar al técnico",tag:"atc",v:1,
+  voz:"En WIN en Ruta puedes ver al técnico asignado: su nombre, fotografía, parte de su identificación y su valoración. Cuando llegue a tu domicilio, verifica que coincida con estos datos antes de brindarle el código de seguimiento.",
+  dig:"En WIN en Ruta puedes ver al técnico asignado 👷: nombre, fotografía, parte de su identificación y su valoración. Cuando llegue, verifica que coincida antes de brindarle tu código de seguimiento."},
+ {id:"hora",t:"Quiere conocer la hora de llegada",tag:"atc",v:1,
+  voz:"Cuando el técnico esté en camino, WIN en Ruta te mostrará su recorrido en el mapa y una hora estimada de llegada. Es una estimación y puede variar, por ejemplo, por el tránsito. La referencia de tu cita es el rango horario indicado en el mensaje.",
+  dig:"Cuando el técnico esté en camino 🚗, en WIN en Ruta verás su recorrido en el mapa y la hora estimada de llegada. Es una estimación que puede variar por el tránsito; tu cita se mantiene dentro del rango horario indicado."},
+ {id:"estados",t:"No entiende los estados",tag:"atc",v:1,
+  voz:"Tu visita pasa por cinco estados: Agendada, cuando la cita ya está programada; Técnico asignado, cuando ya sabes quién te atenderá; En camino, cuando el técnico se dirige a tu domicilio; Iniciada, cuando comienza la atención; y Finalizada, cuando la atención concluye.",
+  dig:"Tu visita pasa por 5 estados:\n📅 Agendada: la cita está programada.\n👷 Técnico asignado: ya sabes quién te atenderá.\n🚗 En camino: el técnico se dirige a tu domicilio.\n🔧 Iniciada: comenzó la atención.\n✅ Finalizada: la atención concluyó."},
+ {id:"no-llega",t:"El técnico no llega",tag:"esp",
+  voz:HELP_VOZ,
+  dig:HELP_DIG},
+ {id:"datos",t:"Dirección, fecha u horario incorrecto",tag:"esp",
+  voz:HELP_VOZ,
+  dig:HELP_DIG},
+ {id:"cod-falla",t:"Código no disponible o no funciona",tag:"esp",
+  note:"Aplica si el cliente puede acceder a WIN en Ruta. Si no puede ingresar, ver «El enlace no abre».",
+  voz:HELP_VOZ,
+  dig:HELP_DIG},
+ {id:"reprog",t:"Solicita reprogramación",tag:"atc",
+  note:"Autoatención: el cliente reprograma desde WIN en Ruta, usando el mismo código de seguimiento.",
+  voz:"¡Claro que sí! Puedes hacerlo tú mismo, fácil y rápido. Ingresa al enlace de WIN en Ruta que te llegó por WhatsApp y selecciona la opción de reprogramar; ahí podrás elegir la fecha y el horario que mejor te convengan usando el mismo código de seguimiento.",
+  dig:"¡Claro que sí! 🙌 Puedes hacerlo tú mismo, fácil y rápido, ingresando al link de WIN en Ruta que te llegó por WhatsApp y seleccionando la opción de reprogramar; ahí podrás elegir la fecha y el horario que mejor te convengan usando el mismo código de seguimiento."},
+ {id:"enlace-falla",t:"El enlace no abre",tag:"pend",v:1,
+  note:"Primero se sugiere una verificación básica. Si la dificultad persiste, aplicar la ruta de contingencia (pendiente de protocolo).",
+  voz:"Te sugiero abrir el enlace directamente desde el mensaje de WhatsApp donde te informamos sobre tu visita y verificar que tengas conexión a internet. ¿Pudiste ingresar?",
+  dig:"Te sugerimos abrir el enlace directamente desde el mensaje de WhatsApp de tu visita y verificar tu conexión a internet 📶. ¿Pudiste ingresar?"},
+ {id:"no-coincide",t:"El técnico no coincide con la identificación",tag:"seg",
+  note:"Indicar al cliente que no entregue el código ni permita el ingreso a su domicilio, y guiarlo a «¿Necesitas ayuda?» para que el equipo especializado atienda el caso. Atención prioritaria.",
+  voz:"Por tu seguridad, no entregues el código de seguimiento ni permitas el ingreso a tu domicilio. "+HELP_VOZ,
+  dig:"Por tu seguridad 🔒, no entregues el código de seguimiento ni permitas el ingreso a tu domicilio. "+HELP_DIG}
+];
+
+var FAQ=[
+ {q:"¿WIN en Ruta es para instalaciones y visitas técnicas?",a:"Sí. Está disponible para clientes que tienen programada una instalación de internet o una visita técnica."},
+ {q:"¿Tengo que descargar alguna aplicación?",a:"No. Se ingresa desde el enlace enviado por WhatsApp, sin instalar ninguna aplicación adicional."},
+ {q:"¿Cómo ingreso a WIN en Ruta?",a:"Desde el enlace incluido en el mensaje de WhatsApp donde se informa la fecha, el horario y la dirección de la visita."},
+ {q:"¿Qué información puedo consultar?",a:"Estado de la visita, datos del técnico asignado, su recorrido en el mapa cuando está en camino, el código de seguimiento, fecha, rango horario y dirección."},
+ {q:"¿Cuáles son los estados de la visita?",a:"Agendada, Técnico asignado, En camino, Iniciada y Finalizada."},
+ {q:"¿Puedo saber quién llegará a mi domicilio?",a:"Sí. WIN en Ruta muestra el nombre, la fotografía y la valoración del técnico asignado."},
+ {q:"¿Puedo ver al técnico en el mapa en cualquier momento?",a:"No. El recorrido se muestra cuando el técnico se encuentra en camino."},
+ {q:"¿La hora de llegada es exacta?",a:"Es una hora estimada bajo rango horario que puede variar, por ejemplo, por el tránsito."},
+ {code:1,q:"¿Dónde encuentro mi código de seguimiento?",a:"En dos lugares: en el mensaje de WhatsApp de la visita (apartado «Código de seguimiento») y en WIN en Ruta, en el recuadro con ese mismo nombre."},
+ {q:"¿Para qué sirve el código de seguimiento?",a:"Para tu seguridad, debes brindarle este código al técnico al llegar a tu domicilio para dar inicio a tu visita técnica."},
+ {q:"¿Qué hago si el técnico se retrasa o no llega en el horario de mi cita?",a:"Primero, revisar en WIN en Ruta el estado de la visita y, si el técnico ya está en camino, su recorrido y hora estimada de llegada. Si el rango horario ya pasó o no hay avance, deslizar hasta la parte inferior y seleccionar «¿Necesitas ayuda?»: el equipo especializado lo atenderá por el mismo WhatsApp."},
+ {q:"¿Quién atenderá mi consulta cuando seleccione «¿Necesitas ayuda?»?",a:"El equipo especializado de Instalaciones o de Visitas Técnicas, que recibe una alerta interna y lo atiende por ese mismo canal."},
+ {q:"¿Puedo reprogramar mi visita?",a:"¡Claro que sí! Puedes hacerlo tú mismo, fácil y rápido, ingresando al link de WIN en Ruta que te llegó por WhatsApp y seleccionando la opción de reprogramar; ahí podrás elegir la fecha y el horario que mejor te convengan usando el mismo código de seguimiento."},
+
+];
+
+var MATRIX=[
+ ["No sabe qué es WIN en Ruta","Explicar beneficios y uso","atc","que-es"],
+ ["No encuentra el enlace","Guiar al mensaje de WhatsApp","atc","enlace"],
+ ["No encuentra el código","Explicar las dos ubicaciones","atc","codigo"],
+ ["Quiere identificar al técnico","Guiar a su perfil","atc","tecnico"],
+ ["Quiere conocer la hora de llegada","Explicar rango y estimación","atc","hora"],
+ ["No entiende los estados","Explicar significado","atc","estados"],
+ ["Técnico no llega","Orientar a «¿Necesitas ayuda?»","esp","no-llega"],
+ ["Dirección, fecha u horario incorrecto","Orientar a «¿Necesitas ayuda?»","esp","datos"],
+ ["Solicita reprogramación","Guiar a la opción de reprogramar en WIN en Ruta","atc","reprog","Resuelve ATC · autoatención"],
+ ["Código no disponible o no funciona","Orientar a «¿Necesitas ayuda?» si accede al landing","esp","cod-falla"],
+ ["Técnico no coincide con la identificación","Indicar que no entregue el código ni permita el ingreso, y guiar a «¿Necesitas ayuda?»","seg","no-coincide","Pool VT / Instalaciones · prioritaria"]
+];
+
+/* ===================== HELPERS ===================== */
+function $(s,c){return (c||document).querySelector(s)}
+function $$(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function norm(s){return String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")}
+function tagHtml(k,label){return '<span class="tag '+TAGS[k][1]+'">'+esc(label||TAGS[k][0])+'</span>'}
+var toastT;
+function toast(m){var t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove("show")},1400)}
+
+function copyText(text,btn){
+  function done(){if(btn){btn.classList.add("ok");var o=btn.textContent;btn.textContent="✓ Copiado";setTimeout(function(){btn.classList.remove("ok");btn.textContent=o},1500)}toast("Copiado al portapapeles")}
+  function fallback(){var ta=document.createElement("textarea");ta.value=text;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");done()}catch(e){toast("No se pudo copiar")}document.body.removeChild(ta)}
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(done,fallback)}else fallback();
+}
+document.addEventListener("click",function(e){
+  var b=e.target.closest("[data-copy]");if(!b)return;
+  var el=$(b.getAttribute("data-copy"));if(el)copyText(el.innerText.trim(),b);
+});
+
+/* ===================== SPEECHES ===================== */
+var motivesEl=$("#motives"),panel=$("#panel"),curSpeech="que-es";
+function spCard(kind,id,text){
+  var vz=kind==="voz";
+  return '<div class="sp'+(vz?"":" digital")+'"><div class="hd"><span class="'+(vz?"vz":"dg")+'">'+(vz?"🎧 Speech · Voz":"💬 Plantilla · Digital")+'</span><button class="copy" data-copy="#'+id+'">Copiar</button></div><div class="bd" id="'+id+'">'+esc(text)+'</div></div>';
+}
+function renderMotives(filter){
+  motivesEl.innerHTML=SPEECHES.filter(function(s){return filter==="all"||s.tag===filter||(filter==="esp"&&s.tag!=="atc")}).map(function(s){
+    return '<button role="tab" data-id="'+s.id+'" class="'+(s.id===curSpeech?"sel":"")+'">'+esc(s.t)+tagHtml(s.tag)+'</button>';
+  }).join("");
+}
+function showSpeech(id,scroll){
+  var s=SPEECHES.filter(function(x){return x.id===id})[0];if(!s)return;
+  curSpeech=id;
+  $$("button",motivesEl).forEach(function(b){b.classList.toggle("sel",b.dataset.id===id)});
+  panel.innerHTML='<div class="panel-anim"><h3>'+esc(s.t)+'</h3><div class="meta">'+tagHtml(s.tag)+(s.v?'<span class="validar">Por validar</span>':"")+'</div>'+
+    (s.note?'<div class="note'+(s.tag==="seg"?" seg":"")+'">'+esc(s.note)+'</div>':"")+
+    '<div class="pair">'+spCard("voz","pv",s.voz)+spCard("dig","pd",s.dig)+'</div></div>';
+  if(scroll){var sec=$("#speeches");reveal(sec);panel.scrollIntoView({behavior:motionOn?"smooth":"auto",block:"center"})}
+}
+motivesEl.addEventListener("click",function(e){var b=e.target.closest("button");if(b)showSpeech(b.dataset.id)});
+$("#motiveFilter").addEventListener("click",function(e){
+  var c=e.target.closest(".chip");if(!c)return;
+  $$(".chip",this).forEach(function(x){x.classList.toggle("on",x===c)});renderMotives(c.dataset.f);
+});
+renderMotives("all");showSpeech("que-es");
+$("#speechPrint").innerHTML=SPEECHES.map(function(s,i){
+  return '<div class="item"><h3>'+esc(s.t)+' '+tagHtml(s.tag)+'</h3>'+(s.note?'<p><em>'+esc(s.note)+'</em></p>':"")+'<div class="pair">'+spCard("voz","pp"+i+"v",s.voz)+spCard("dig","pp"+i+"d",s.dig)+'</div></div>';
+}).join("");
+
+/* ===================== FAQ ===================== */
+var CODE_HTML='<div class="faq-code">  <div class="shape shape-code"><small>Código de seguimiento</small><div class="digits"><span>4</span><span>8</span><span>2</span><span>7</span></div></div>  <svg class="code-lines" viewBox="0 0 620 56" preserveAspectRatio="none" aria-hidden="true"><path class="cl" d="M310 0 C 310 30, 155 26, 155 56"/><path class="cl" d="M310 0 C 310 30, 465 26, 465 56"/></svg>  <div class="places">    <div class="card place wa"><span class="lb">WhatsApp</span><h3>Mensaje de coordinación de la visita</h3><p>En el apartado «Código de seguimiento».</p></div>    <div class="card place wr"><span class="lb">WIN en Ruta</span><h3>Recuadro «Código de seguimiento»</h3><p>Visible al ingresar desde el enlace.</p></div>  </div>  <a href="#speeches" class="faq-link" data-goto="codigo">Ver speech de Voz y plantilla Digital →</a></div>';
+$("#faqList").innerHTML=FAQ.map(function(f,i){
+  return '<details class="rv'+(f.code?' wide':'')+'" id="faq-'+i+'"'+(f.code?' open':'')+'><summary>'+esc(f.q)+(f.code?' <span class="prio">● Caso prioritario</span>':'')+'</summary><div class="ans">'+esc(f.a)+(f.v?'<span class="validar">Por validar</span>':"")+(f.code?CODE_HTML:"")+'</div></details>';
+}).join("");
+
+/* ===================== MATRIX ===================== */
+$("#mBody").innerHTML=MATRIX.map(function(r,i){
+  return '<tr data-t="'+r[2]+'" id="mx-'+i+'"><td>'+esc(r[0])+'</td><td>'+esc(r[1])+'</td><td>'+tagHtml(r[2],r[4])+(r[3]?' <a href="#speeches" data-goto="'+r[3]+'" style="font-size:.78rem;font-weight:800;color:var(--orange);margin-left:4px;white-space:nowrap">Ver speech →</a>':"")+'</td></tr>';
+}).join("");
+$("#mFilter").addEventListener("click",function(e){
+  var c=e.target.closest(".chip");if(!c)return;
+  $$(".chip",this).forEach(function(x){x.classList.toggle("on",x===c)});
+  $$("#mBody tr").forEach(function(tr){tr.classList.toggle("hide",c.dataset.f!=="all"&&tr.dataset.t!==c.dataset.f)});
+});
+document.addEventListener("click",function(e){
+  var a=e.target.closest("[data-goto]");if(!a)return;e.preventDefault();
+  showSpeech(a.dataset.goto,true);
+});
+
+/* ===================== MOTION / MORPH ===================== */
+var morph=$("#morph"),body=document.body,motionOn=true,curAnchor=null,landT,swapT,introDone=false;
+var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var saved=null;try{saved=localStorage.getItem("wer-motion")}catch(e){}
+motionOn=saved?saved==="1":!reduce;
+
+function applyMotion(){
+  body.classList.toggle("motion",motionOn);
+  body.classList.toggle("static",!motionOn);
+  $("#motionLbl").textContent=motionOn?"Animaciones: sí":"Animaciones: no";
+  if(!motionOn){$$("[data-scene]").forEach(function(s){s.classList.add("in")});$$(".anchor").forEach(function(a){a.classList.add("on")});$("#routeWrap").classList.add("drawn")}
+  else if(curAnchor){place(curAnchor,true)}
+}
+$("#motionBtn").addEventListener("click",function(){
+  motionOn=!motionOn;try{localStorage.setItem("wer-motion",motionOn?"1":"0")}catch(e){}
+  if(motionOn){$$(".anchor").forEach(function(a){if(!a.hasAttribute("data-ghost"))a.classList.add("on")})}
+  applyMotion();
+});
+
+function shapeOf(a){return (a.className.match(/shape-\w+/)||[""])[0]}
+function geo(a){var r=a.getBoundingClientRect();return {top:r.top+window.scrollY,left:r.left+window.scrollX,w:r.width,h:r.height}}
+function place(a,instant){
+  if(!a||!motionOn)return;
+  var g=geo(a),sh=shapeOf(a),same=curAnchor&&shapeOf(curAnchor)===sh&&morph.innerHTML!=="";
+  if(instant){morph.style.transition="none"}
+  morph.style.top=g.top+"px";morph.style.left=g.left+"px";morph.style.width=g.w+"px";morph.style.height=g.h+"px";
+  morph.className="morph shape "+sh;
+  if(instant){morph.innerHTML=a.innerHTML;void morph.offsetWidth;morph.style.transition=""}
+  else if(!same){morph.classList.add("swap");clearTimeout(swapT);swapT=setTimeout(function(){morph.innerHTML=a.innerHTML;morph.classList.remove("swap")},380)}
+  curAnchor=a;
+  clearTimeout(landT);
+  landT=setTimeout(function(){
+    if(!a.hasAttribute("data-ghost"))a.classList.add("on");
+    morph.classList.remove("land");void morph.offsetWidth;morph.classList.add("land");
+  },instant?0:860);
+}
+
+function reveal(sec){
+  if(sec.classList.contains("in"))return;
+  $$(".rv",sec).forEach(function(el,i){el.style.setProperty("--i",Math.min(i,10))});
+  sec.classList.add("in");
+  setTimeout(function(){$$(".anchor[data-anchor]",sec).forEach(function(a){a.classList.add("on")})},1600);
+}
+
+/* reveal: slight delay so the morph lands first, then content follows */
+var revObs=new IntersectionObserver(function(es){
+  es.forEach(function(en){if(en.isIntersecting){var s=en.target;setTimeout(function(){reveal(s)},motionOn?380:0);revObs.unobserve(s)}});
+},{threshold:.12});
+$$("[data-scene]").forEach(function(s){revObs.observe(s)});
+
+/* active scene: nav highlight follows the section at the top; morph follows the section entering view */
+var navLinks=$$("#nav a"),scenes=$$("[data-scene]"),navLock=null,navLockT,curNav=null,curScene=null,ticking=false;
+function headerH(){return $(".top").offsetHeight}
+function syncPad(){document.documentElement.style.scrollPaddingTop=(headerH()+12)+"px"}
+function setNav(id){
+  if(id===curNav)return;curNav=id;
+  navLinks.forEach(function(l){l.classList.toggle("cur",l.getAttribute("href")==="#"+id)});
+  var c=$(".cur",$("#nav"));if(c)c.parentNode.scrollLeft=c.offsetLeft-20;
+}
+function update(){
+  ticking=false;
+  var hh=headerH(),vh=window.innerHeight,navId=scenes[0].id,scene=scenes[0];
+  var atBottom=window.scrollY+vh>=document.documentElement.scrollHeight-4;
+  scenes.forEach(function(s){var t=s.getBoundingClientRect().top;if(t<=hh+80)navId=s.id;if(t<=vh*.55)scene=s});
+  if(atBottom){navId=scenes[scenes.length-1].id;scene=scenes[scenes.length-1]}
+  setNav(navLock||navId);
+  if(scene!==curScene){
+    curScene=scene;
+    if(scene.id==="inicio"&&!introDone)return;
+    var anchors=$$(".anchor[data-anchor]",scene);
+    if(anchors.length)place(anchors[anchors.length-1]);
+  }
+}
+window.addEventListener("scroll",function(){
+  if(navLock){clearTimeout(navLockT);navLockT=setTimeout(function(){navLock=null;update()},250)}
+  if(!ticking){ticking=true;requestAnimationFrame(update)}
+},{passive:true});
+navLinks.forEach(function(l){l.addEventListener("click",function(){
+  navLock=l.getAttribute("href").slice(1);setNav(navLock);
+  clearTimeout(navLockT);navLockT=setTimeout(function(){navLock=null;update()},1200);
+})});
+syncPad();update();
+
+/* hero intro: route draws, then the pin travels along it */
+function intro(){
+  var rw=$("#routeWrap");
+  reveal($("#inicio"));
+  if(!motionOn){rw.classList.add("drawn");introDone=true;return}
+  place($(".a-start"),true);
+  setTimeout(function(){rw.classList.add("drawn")},250);
+  setTimeout(function(){
+    introDone=true;
+    var top=window.scrollY<window.innerHeight*.5;
+    if(top)place($(".a-end"));
+    else {$(".a-end").classList.add("on")}
+  },1450);
+}
+
+var rT;window.addEventListener("resize",function(){clearTimeout(rT);rT=setTimeout(function(){syncPad();update();if(curAnchor)place(curAnchor,true)},120)});
+window.addEventListener("load",function(){if(curAnchor)place(curAnchor,true)});
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){if(curAnchor)place(curAnchor,true)});
+
+/* ===================== SEARCH ===================== */
+var INDEX=[];
+SPEECHES.forEach(function(s){INDEX.push({sec:"Speech",t:s.t,txt:s.t+" "+s.voz+" "+s.dig+" "+(s.note||""),go:function(){showSpeech(s.id,true)}})});
+FAQ.forEach(function(f,i){INDEX.push({sec:"Pregunta frecuente",t:f.q,txt:f.q+" "+f.a,go:function(){var d=$("#faq-"+i);reveal($("#faq"));d.open=true;d.scrollIntoView({behavior:motionOn?"smooth":"auto",block:"center"});d.classList.remove("hl");void d.offsetWidth;d.classList.add("hl")}})});
+MATRIX.forEach(function(r,i){INDEX.push({sec:"Qué hacer en cada caso",t:r[0],txt:r[0]+" "+r[1]+" "+(r[4]||TAGS[r[2]][0]),go:function(){var tr=$("#mx-"+i);reveal($("#matriz"));$$("#mFilter .chip").forEach(function(c){c.classList.toggle("on",c.dataset.f==="all")});$$("#mBody tr").forEach(function(x){x.classList.remove("hide")});tr.scrollIntoView({behavior:motionOn?"smooth":"auto",block:"center"});tr.classList.remove("flash");void tr.offsetWidth;tr.classList.add("flash")}})});
+$$("[data-s]").forEach(function(el){INDEX.push({sec:"Guía",t:el.querySelector("h3").textContent,txt:el.dataset.s+" "+el.textContent,go:function(){reveal(el.closest("section"));el.scrollIntoView({behavior:motionOn?"smooth":"auto",block:"center"});el.classList.remove("hl");void el.offsetWidth;el.classList.add("hl")}})});
+[["Protocolo general","protocolo","protocolo flujo atención transferencia necesitas ayuda alerta pool contingencia"],["Experiencia del cliente","experiencia","experiencia cliente recorrido pasos whatsapp"]].forEach(function(x){
+  INDEX.push({sec:"Sección",t:x[0],txt:x[0]+" "+x[2],go:function(){$("#"+x[1]).scrollIntoView({behavior:motionOn?"smooth":"auto"})}});
+});
+INDEX.forEach(function(it){it.n=norm(it.txt);it.nt=norm(it.t)});
+
+var q=$("#q"),res=$("#results"),hits=[],act=0;
+function search(){
+  var v=norm(q.value.trim());
+  if(!v){res.classList.remove("open");return}
+  var words=v.split(/\s+/);
+  hits=INDEX.map(function(it){
+    var score=0,ok=words.every(function(w){var a=it.n.indexOf(w)>-1;if(it.nt.indexOf(w)>-1)score+=3;else if(a)score+=1;return a});
+    if(ok&&it.nt.indexOf(v)>-1)score+=10;
+    return ok?{it:it,s:score}:null;
+  }).filter(Boolean).sort(function(a,b){return b.s-a.s}).slice(0,8).map(function(x){return x.it});
+  act=0;
+  res.innerHTML=hits.length?hits.map(function(h,i){return '<button role="option" data-i="'+i+'" class="'+(i===0?"act":"")+'"><span class="rs">'+esc(h.sec)+'</span><span class="rt">'+esc(h.t)+'</span></button>'}).join(""):'<div class="empty">Sin resultados. Prueba con otra palabra.</div>';
+  res.classList.add("open");
+}
+function go(i){var h=hits[i];if(!h)return;res.classList.remove("open");q.blur();h.go()}
+q.addEventListener("input",search);
+q.addEventListener("focus",function(){if(q.value.trim())search()});
+q.addEventListener("keydown",function(e){
+  var bs=$$("button",res);
+  if(e.key==="ArrowDown"||e.key==="ArrowUp"){e.preventDefault();if(!bs.length)return;act=(act+(e.key==="ArrowDown"?1:-1)+bs.length)%bs.length;bs.forEach(function(b,i){b.classList.toggle("act",i===act)})}
+  else if(e.key==="Enter"){e.preventDefault();go(act)}
+  else if(e.key==="Escape"){res.classList.remove("open");q.blur()}
+});
+res.addEventListener("mousedown",function(e){var b=e.target.closest("button");if(b){e.preventDefault();go(+b.dataset.i)}});
+document.addEventListener("click",function(e){if(!e.target.closest(".search"))res.classList.remove("open")});
+document.addEventListener("keydown",function(e){if(e.key==="/"&&document.activeElement!==q&&!/input|textarea/i.test(document.activeElement.tagName)){e.preventDefault();q.focus()}});
+
+/* ===================== PRINT ===================== */
+var openState=[];
+window.addEventListener("beforeprint",function(){openState=$$("#faqList details").map(function(d){var o=d.open;d.open=true;return o});$$("[data-scene]").forEach(reveal)});
+window.addEventListener("afterprint",function(){$$("#faqList details").forEach(function(d,i){d.open=openState[i]})});
+
+applyMotion();
+intro();
+})();
+</script>
+</body>
+</html>
