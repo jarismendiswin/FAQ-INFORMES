@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matriz de beneficios G1–G23</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --orange:#FF6A1A; --orange-dk:#C9480B; --orange-bg:#FFF1E8;
+  --dark:#23262F; --page:#F5F6FA; --card:#FFFFFF; --line:#E6E8EF;
+  --teal:#1F6F7A; --teal-bg:#E7F4F5; --teal-head:#E3F3F3;
+  --purple:#5A3E9E; --purple-bg:#F0EDF8; --purple-line:#D9D2EC;
+  --muted:#6B7080; --gap:10px; --group-gap:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--page);color:var(--dark);-webkit-font-smoothing:antialiased;padding:24px 16px}
+.wrap{max-width:1680px;margin:0 auto}
+.scroller{overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch}
+.scroller:focus-visible{outline:2px solid var(--orange);outline-offset:4px}
+.matrix{
+  min-width:1760px;display:grid;
+  grid-template-columns:72px repeat(4,minmax(80px,1fr)) repeat(4,minmax(80px,1fr)) repeat(4,minmax(80px,1fr));
+  column-gap:var(--gap);row-gap:var(--gap);
+}
+/* separación visual entre bloques de columnas */
+/* encabezados */
+.h1,.h2{grid-column:span 8;text-align:center;font-weight:700;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.h1{background:var(--dark);color:#fff;font-size:15px;letter-spacing:.02em;min-height:40px}
+.h1.more{grid-column:span 4}
+.h2{grid-column:span 4;background:#E9EBF0;font-size:16px;min-height:38px;margin-bottom:6px}
+.h2.blind{background:var(--teal-head);color:#1E8187;font-weight:600}
+.spacer{grid-column:1}
+/* etiqueta de segmento */
+.seg{border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:16px 0;gap:20px;color:#fff;position:sticky;left:0;z-index:2}
+.seg svg{width:34px;height:34px;fill:none;stroke:#fff;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.seg span{writing-mode:vertical-rl;transform:rotate(180deg);font-weight:800;font-size:20px;letter-spacing:.06em;flex:1;display:flex;align-items:center}
+.seg.elite{background:var(--orange)}
+.seg.noelite{background:var(--dark)}
+/* tarjeta de grupo */
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .15s,transform .15s}
+.card:hover,.card:focus-visible{box-shadow:0 6px 18px rgba(35,38,47,.12);transform:translateY(-2px);outline:none}
+.card:focus-visible{box-shadow:0 0 0 3px var(--orange)}
+.card h3{font-size:19px;font-weight:600;text-align:center;color:#fff;padding:6px 0;line-height:1.2}
+.card.elite h3{background:var(--orange)}
+.card.noelite h3{background:var(--dark)}
+.card .body{padding:8px 6px;display:flex;flex-direction:column;gap:10px;flex:1}
+/* grupos G9–G11 / G21–G23: WINTV centrado verticalmente como en el original */
+.card.g-c .body{justify-content:flex-start;padding-top:48px}
+.card.g-c .body:has(.winner){padding-top:48px}
+/* bloques de beneficio */
+.benefit{border-radius:6px;padding:9px 8px;min-width:0}
+.tag{white-space:nowrap;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.02em}
+.tag svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.speed.up{background:var(--orange-bg);color:var(--orange-dk)}
+.speed.ext{background:var(--teal-bg);color:var(--teal)}
+.mbps{white-space:nowrap;text-align:center;margin-top:2px;line-height:1}
+.mbps strong{font-size:26px;font-weight:600}
+.mbps span{font-size:12px;font-weight:400}
+.speed.up .mbps strong{color:#B84A12}
+.speed.ext .mbps strong{color:#1C5563}
+.speed.ext{padding-bottom:18px}
+.perm{white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:5px;font-size:12.5px;font-weight:600;margin-top:6px;color:#8A3A0E}
+.perm svg{flex:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8}
+.tv{background:var(--purple-bg);color:var(--purple)}
+.tv .tag{color:#4A4E5C}
+.tv .tag svg{color:var(--purple)}
+.plan{font-size:15.5px;font-weight:600;line-height:1.35;margin:8px 0 8px;letter-spacing:.01em}
+.dur{white-space:nowrap;display:flex;align-items:center;gap:6px;border-top:1px solid var(--purple-line);padding-top:8px;font-size:14px;font-weight:600;color:#3B3F4C}
+.dur svg{flex:none;width:15px;height:15px;fill:none;stroke:#3B3F4C;stroke-width:1.8;stroke-linecap:round}
+.winner{background:var(--orange-bg);border-radius:6px;text-align:center;padding:10px 6px 14px;color:var(--orange-dk)}
+.winner svg{width:34px;height:34px;fill:none;stroke:var(--orange-dk);stroke-width:1.5;stroke-linejoin:round}
+.winner p{font-size:15px;color:#6A3A20;margin:2px 0 4px}
+.winner strong{font-size:22px;font-weight:800;line-height:1.05;color:#E0550F}
+/* leyenda */
+.legend{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin-top:22px;padding-left:4px}
+.legend ul{list-style:none;display:flex;gap:32px}
+.legend li{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px}
+.legend svg{width:26px;height:26px;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.legend .ls svg{stroke:var(--orange-dk)}
+.legend .lt svg{stroke:var(--purple)}
+.legend p{color:var(--muted);font-size:14.5px}
+.hint{display:none;font-size:13px;color:var(--muted);margin-bottom:8px}
+@media (max-width:1240px){.hint{display:block}}
+@media print{body{background:#fff;padding:0}.scroller{overflow:visible}.card:hover{transform:none;box-shadow:none}}
+@media (prefers-reduced-motion:reduce){.card{transition:none}}
+
+/* botón de grupo */
+.card h3{padding:0}
+.gbtn{all:unset;box-sizing:border-box;width:100%;display:flex;flex-direction:column;align-items:center;padding:6px 4px 7px;cursor:pointer;color:#fff;transition:background .15s}
+.gbtn:hover{background:rgba(0,0,0,.12)}
+.card.noelite .gbtn:hover{background:rgba(255,255,255,.1)}
+.gbtn:focus-visible{outline:3px solid #FFC200;outline-offset:-3px}
+.gname{font-size:19px;font-weight:600;line-height:1.1}
+.gsp{display:inline-flex;align-items:center;gap:4px;margin-top:4px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.55);border-radius:999px;padding:2px 9px}
+.gsp svg{width:12px;height:12px;fill:none;stroke:#fff;stroke-width:2;stroke-linejoin:round}
+.gbtn:hover .gsp{background:#fff;color:var(--dark)}
+.gbtn:hover .gsp svg{stroke:var(--dark)}
+/* modal */
+dialog.sp{margin:auto;border:none;border-radius:14px;padding:0;width:min(680px,calc(100vw - 32px));max-height:calc(100vh - 48px);box-shadow:0 24px 60px rgba(20,22,30,.35);color:var(--dark);font-family:inherit}
+dialog.sp::backdrop{background:rgba(20,22,30,.55);backdrop-filter:blur(2px)}
+dialog.sp[open]{display:flex;flex-direction:column;animation:pop .18s ease-out}
+@keyframes pop{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
+.sp-head{padding:18px 20px 16px;color:#fff;display:flex;gap:12px;align-items:flex-start}
+.sp-head.elite{background:var(--orange)}
+.sp-head.noelite{background:var(--dark)}
+.sp-head div{flex:1}
+.sp-head h2{font-size:20px;font-weight:800;line-height:1.25}
+.sp-head p{font-size:14.5px;font-weight:500;opacity:.92;margin-top:4px}
+.sp-x{all:unset;cursor:pointer;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.18);flex:none}
+.sp-x:hover{background:rgba(255,255,255,.32)}
+.sp-x:focus-visible{outline:3px solid #FFC200}
+.sp-x svg{width:18px;height:18px;stroke:#fff;stroke-width:2.2;fill:none;stroke-linecap:round}
+.sp-body{padding:18px 20px 8px;overflow-y:auto}
+.sp-label{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:4px 0 8px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.sp-box{background:#FAFAFC;border:1px solid var(--line);border-left:4px solid var(--orange);border-radius:8px;padding:14px 16px;margin-bottom:16px}
+.sp-box.close{border-left-color:#1E8187;background:#F3FAFA}
+.sp-box p{font-size:15.5px;line-height:1.6}
+.sp-box p+p{margin-top:12px}
+.ph{background:#FFE7D6;color:#B84A12;font-weight:700;border-radius:4px;padding:0 4px}
+.copy{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;text-transform:none;letter-spacing:0;color:var(--dark);border:1px solid var(--line);background:#fff;border-radius:6px;padding:4px 9px}
+.copy:hover{border-color:var(--dark)}
+.copy:focus-visible{outline:2px solid var(--orange)}
+.copy svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2}
+.copy.ok{background:#E7F6EC;border-color:#3C9A5F;color:#236B3E}
+.sp-foot{display:flex;justify-content:space-between;align-items:center;padding:12px 20px 16px;border-top:1px solid var(--line);gap:8px}
+.nav{all:unset;cursor:pointer;font-size:14px;font-weight:600;padding:8px 14px;border-radius:8px;border:1px solid var(--line);display:inline-flex;gap:6px;align-items:center}
+.nav:hover:not([disabled]){border-color:var(--dark)}
+.nav:focus-visible{outline:2px solid var(--orange)}
+.nav[disabled]{opacity:.35;cursor:default}
+.sp-foot small{color:var(--muted);font-size:12.5px}
+@media (max-width:520px){.sp-foot small{display:none}}
+
+.toolbar{display:flex;justify-content:flex-end;margin-bottom:14px}
+.faq-btn{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:8px;background:var(--dark);color:#fff;font-weight:700;font-size:15px;padding:10px 18px;border-radius:10px;border:2px solid var(--orange);box-shadow:0 2px 8px rgba(35,38,47,.15);transition:background .15s,transform .15s}
+.faq-btn:hover{background:var(--orange);transform:translateY(-1px)}
+.faq-btn:focus-visible{outline:3px solid #FFC200;outline-offset:2px}
+.faq-btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+dialog.faq{width:min(820px,calc(100vw - 32px))}
+.faq-search{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;padding:0 12px;margin-bottom:12px;background:#fff}
+.faq-search:focus-within{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,106,26,.15)}
+.faq-search svg{width:18px;height:18px;fill:none;stroke:var(--muted);stroke-width:2;flex:none}
+.faq-search input{all:unset;flex:1;padding:11px 0;font-size:15px}
+.faq-tools{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:13px;color:var(--muted)}
+.linkbtn{all:unset;cursor:pointer;font-weight:600;color:var(--dark);text-decoration:underline;text-underline-offset:3px}
+.linkbtn:focus-visible{outline:2px solid var(--orange)}
+.qa{border:1px solid var(--line);border-radius:10px;margin-bottom:8px;background:#fff;overflow:hidden}
+.qa[open]{border-color:#F3B48E;box-shadow:0 2px 10px rgba(35,38,47,.06)}
+.qa summary{list-style:none;cursor:pointer;display:flex;gap:12px;align-items:center;padding:13px 14px;font-weight:600;font-size:15.5px;line-height:1.4}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary:focus-visible{outline:3px solid #FFC200;outline-offset:-3px}
+.qa summary:hover{background:#FAFAFC}
+.qn{flex:none;width:28px;height:28px;border-radius:50%;background:var(--orange-bg);color:var(--orange-dk);display:grid;place-items:center;font-size:13px;font-weight:800}
+.qa[open] .qn{background:var(--orange);color:#fff}
+.qt{flex:1}
+.chev{flex:none;width:18px;height:18px;fill:none;stroke:var(--muted);stroke-width:2.2;transition:transform .2s}
+.qa[open] .chev{transform:rotate(180deg)}
+.qa-body{padding:2px 14px 14px 54px;display:flex;flex-direction:column;gap:10px}
+.ans{background:#FAFAFC;border:1px solid var(--line);border-left:4px solid var(--orange);border-radius:8px;padding:11px 13px}
+.ans .cond{display:block;font-size:12.5px;font-weight:700;color:var(--orange-dk);margin-bottom:4px}
+.ans p{font-size:15px;line-height:1.6}
+.ans-row{display:flex;justify-content:flex-end;margin-top:8px}
+.note{display:flex;gap:10px;align-items:flex-start;background:#FFF7DB;border:1px solid #F2D374;border-radius:8px;padding:10px 12px;font-size:14px;line-height:1.5;color:#5B4500}
+.note svg{flex:none;width:18px;height:18px;margin-top:1px;fill:none;stroke:#B38600;stroke-width:2;stroke-linecap:round}
+.note b{font-weight:800}
+.empty{text-align:center;color:var(--muted);padding:24px 0;font-size:14.5px}
+@media (max-width:560px){.qa-body{padding-left:14px}}
+/* ===== Barra superior: botón Speech Ventas Out ===== */
+.toolbar{gap:10px;flex-wrap:wrap}
+.vo-open{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--dark);font-weight:700;font-size:15px;padding:10px 18px;border-radius:10px;border:2px solid var(--dark);box-shadow:0 2px 8px rgba(35,38,47,.08);transition:background .15s,color .15s,transform .15s}
+.vo-open:hover{border-color:var(--orange);transform:translateY(-1px)}
+.vo-open:focus-visible{outline:3px solid #FFC200;outline-offset:2px}
+.vo-open svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.vo-open[aria-pressed="true"]{background:var(--orange);border-color:var(--orange);color:#fff}
+/* ===== Módulo Speech Ventas Out ===== */
+.vo{max-width:1040px;margin:0 auto}
+.vo[hidden]{display:none}
+.vo-head{background:var(--dark);color:#fff;border-radius:14px 14px 0 0;border-bottom:4px solid var(--orange);padding:18px 22px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
+.vo-head h2{font-size:22px;font-weight:800;letter-spacing:.03em}
+.vo-head h2:focus{outline:none}
+.vo-head p{font-size:14.5px;opacity:.85;margin-top:3px}
+.vo-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.vo-steplbl{font-size:13px;font-weight:700;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 12px;white-space:nowrap}
+.vo-btn{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px;font-size:14px;font-weight:700;padding:10px 16px;border-radius:9px;border:2px solid transparent;transition:background .15s,border-color .15s,color .15s;text-align:center}
+.vo-btn svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.vo-btn:focus-visible{outline:3px solid #FFC200;outline-offset:2px}
+.vo-btn.light{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.35);color:#fff}
+.vo-btn.light:hover{background:rgba(255,255,255,.2)}
+.vo-btn.primary{background:var(--orange);color:#fff}
+.vo-btn.primary:hover{background:#E8580C}
+.vo-btn.primary[disabled]{background:#E3E5EB;color:#9599A6;cursor:not-allowed}
+.vo-btn.ghost{background:#fff;color:var(--dark);border-color:var(--line)}
+.vo-btn.ghost:hover{border-color:var(--dark)}
+.vo-btn.dark{background:var(--dark);color:#fff}
+.vo-btn.dark:hover{background:#000}
+/* stepper */
+.vo-stepper{list-style:none;display:flex;background:#fff;border:1px solid var(--line);border-top:none;padding:16px 18px 14px;overflow-x:auto;gap:0}
+.vo-stepper li{flex:1;min-width:120px;display:flex;flex-direction:column;align-items:center;position:relative;text-align:center}
+.vo-stepper li:not(:first-child)::before{content:"";position:absolute;top:17px;right:50%;width:100%;height:3px;background:var(--line);z-index:0}
+.vo-stepper li.done::before,.vo-stepper li.cur::before{background:var(--orange)}
+.vo-stepper button{all:unset;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;z-index:1;cursor:default;border-radius:8px;padding:0 4px}
+.vo-stepper button:not([disabled]){cursor:pointer}
+.vo-stepper button:focus-visible{outline:3px solid #FFC200}
+.vo-dot{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:15px;background:#E9EBF0;color:#6B7080;border:2px solid #E9EBF0}
+.vo-stepper .done .vo-dot{background:var(--orange-bg);color:var(--orange-dk);border-color:var(--orange)}
+.vo-stepper .cur .vo-dot{background:var(--dark);color:#fff;border-color:var(--orange);box-shadow:0 0 0 4px rgba(255,106,26,.18)}
+.vo-stepper .off .vo-dot{opacity:.45}
+.vo-sname{font-size:12.5px;font-weight:600;color:var(--muted);line-height:1.3}
+.vo-stepper .cur .vo-sname{color:var(--dark);font-weight:800}
+.vo-stepper .done button:not([disabled]):hover .vo-sname{text-decoration:underline}
+/* recorrido */
+.vo-path{background:#FAFAFC;border:1px solid var(--line);border-top:none;padding:9px 18px;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px;align-items:center;min-height:38px}
+.vo-path b{color:var(--dark);font-weight:700}
+.vo-chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-weight:600;color:var(--dark)}
+.vo-chip.warn{border-color:#E5A0A0;color:#9B2C2C;background:#FDF1F1}
+/* escenario */
+.vo-stage{background:#fff;border:1px solid var(--line);border-top:none;border-radius:0 0 14px 14px;padding:22px 22px 18px}
+.vo-h3{font-size:18px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.vo-h3 .vo-num{background:var(--orange);color:#fff;border-radius:6px;padding:2px 9px;font-size:13px;letter-spacing:.04em}
+.vo-q{font-size:16px;font-weight:700;margin:18px 0 10px}
+.vo-read{display:inline-flex;align-items:center;gap:6px;color:var(--orange-dk)}
+.vo-read svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round}
+.vo-stage .note{margin-bottom:14px}
+.vo-arrow{display:flex;justify-content:center;margin:2px 0 12px;color:var(--orange)}
+.vo-arrow svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.ins{background:#E7F6EC;color:#1F6B3A;font-weight:700;border-radius:4px;padding:0 4px}
+.copy[disabled]{opacity:.4;cursor:not-allowed}
+/* opciones */
+.vo-opts{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-bottom:16px}
+.vo-opt{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:12px;padding:14px 16px;border:2px solid var(--line);border-radius:12px;background:#fff;font-weight:700;font-size:15px;line-height:1.35;transition:border-color .15s,background .15s,box-shadow .15s}
+.vo-opt:hover{border-color:var(--orange);box-shadow:0 3px 12px rgba(35,38,47,.08)}
+.vo-opt:focus-visible{outline:3px solid #FFC200;outline-offset:2px}
+.vo-opt .vo-letter{flex:none;width:32px;height:32px;border-radius:8px;background:var(--orange-bg);color:var(--orange-dk);display:grid;place-items:center;font-weight:800}
+.vo-opt[aria-pressed="true"]{background:var(--dark);border-color:var(--orange);color:#fff}
+.vo-opt[aria-pressed="true"] .vo-letter{background:var(--orange);color:#fff}
+.vo-opt.alt .vo-letter{background:#ECEDF1;color:#4A4E5C}
+.vo-opt.alt{border-style:dashed}
+.vo-opt.alt[aria-pressed="true"]{border-style:solid;background:#3B3F4C;border-color:#9AA0AE}
+.vo-opt small{display:block;font-weight:500;font-size:12.5px;opacity:.75;margin-top:2px}
+/* acción del asesor (rama C) */
+.vo-action{border:2px solid var(--dark);border-radius:10px;overflow:hidden;margin-bottom:14px}
+.vo-action h4{background:var(--dark);color:#fff;font-size:13px;letter-spacing:.06em;padding:9px 14px;display:flex;align-items:center;gap:8px}
+.vo-action h4 svg{width:16px;height:16px;fill:none;stroke:#FFC200;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.vo-action div{padding:12px 14px;font-size:15px;line-height:1.6}
+.vo-action p+p{margin-top:8px}
+.vo-action strong{color:var(--orange-dk)}
+.vo-branch{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#9B2C2C;background:#FDF1F1;border:1px solid #F0C4C4;border-radius:8px;padding:8px 12px;margin-bottom:14px}
+/* paso 4 */
+.vo-qgrid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));margin:6px 0 16px}
+.vo-qcard{border:1px solid var(--line);border-radius:12px;padding:14px;background:#FCFCFD;transition:border-color .15s,box-shadow .15s}
+.vo-qcard.err{border-color:#E5484D;box-shadow:0 0 0 3px rgba(229,72,77,.12)}
+.vo-qcard.ok{border-color:#9FD5B1}
+.vo-qhead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
+.vo-qtag{font-size:11.5px;font-weight:800;letter-spacing:.06em;color:var(--orange-dk);text-transform:uppercase}
+.vo-count{font-size:12px;font-weight:700;border-radius:999px;padding:2px 9px;background:#ECEDF1;color:#4A4E5C}
+.vo-count.full{background:var(--orange-bg);color:var(--orange-dk)}
+.vo-qtext{font-size:15px;font-weight:700;line-height:1.4;margin-bottom:6px}
+.vo-instr{font-size:12.5px;color:var(--muted);margin-bottom:10px}
+.vo-instr b{color:var(--dark)}
+.vo-choices{display:flex;flex-direction:column;gap:6px}
+.vo-choice{display:flex;align-items:center;gap:10px;padding:9px 11px;border:1.5px solid var(--line);border-radius:9px;background:#fff;cursor:pointer;font-size:14px;font-weight:500;transition:border-color .15s,background .15s}
+.vo-choice:hover{border-color:var(--orange)}
+.vo-choice input{accent-color:var(--orange);width:17px;height:17px;flex:none;margin:0}
+.vo-choice:has(input:checked){border-color:var(--orange);background:var(--orange-bg);font-weight:700}
+.vo-choice:has(input:focus-visible){outline:3px solid #FFC200;outline-offset:1px}
+.vo-choice.dim{opacity:.55}
+.vo-msg{font-size:12.5px;font-weight:600;color:#9B2C2C;margin-top:8px;min-height:0}
+.vo-msg:empty{display:none}
+.vo-sum{border:1px dashed #C9CCD6;border-radius:12px;padding:12px 14px;background:#fff;margin-bottom:14px}
+.vo-sum h4{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.vo-sum dl{display:grid;grid-template-columns:minmax(150px,auto) 1fr;gap:6px 14px;font-size:14px}
+.vo-sum dt{color:var(--muted);font-weight:600}
+.vo-sum dd{font-weight:700}
+.vo-sum dd.pend{color:#B0B4BF;font-weight:600;font-style:italic}
+.vo-err{background:#FDECEC;border:1px solid #F3B5B7;color:#8E1F24;border-radius:10px;padding:10px 14px;font-size:14px;margin-bottom:14px}
+.vo-err ul{margin:4px 0 0 18px}
+/* paso 5 */
+.vo-join{display:flex;align-items:center;gap:10px;background:var(--dark);color:#fff;border-left:6px solid var(--orange);border-radius:10px;padding:14px 16px;font-weight:800;font-size:16px;letter-spacing:.03em;margin-bottom:14px}
+.vo-join svg{width:22px;height:22px;fill:none;stroke:#FFC200;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.vo-seg{font-size:13px;font-weight:800;letter-spacing:.06em;margin:14px 0 8px;display:flex;align-items:center;gap:8px}
+.vo-seg i{display:inline-block;width:12px;height:12px;border-radius:3px}
+.vo-groups{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+.vo-g{all:unset;box-sizing:border-box;cursor:pointer;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;display:flex;flex-direction:column;transition:box-shadow .15s,transform .15s}
+.vo-g:hover{box-shadow:0 6px 16px rgba(35,38,47,.12);transform:translateY(-1px)}
+.vo-g:focus-visible{outline:3px solid #FFC200;outline-offset:2px}
+.vo-g b{display:flex;justify-content:space-between;align-items:center;color:#fff;font-size:15px;padding:6px 10px}
+.vo-g b span{font-size:10.5px;letter-spacing:.06em;border:1px solid rgba(255,255,255,.6);border-radius:999px;padding:1px 7px}
+.vo-g.e b{background:var(--orange)}
+.vo-g.p b{background:var(--dark)}
+.vo-g em{font-style:normal;font-size:12.5px;line-height:1.4;padding:8px 10px;color:#3B3F4C;font-weight:600}
+/* navegación inferior */
+.vo-nav{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:16px;margin-top:8px}
+.vo-nav .r{display:flex;gap:10px;flex-wrap:wrap;margin-left:auto}
+.vo-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--dark);color:#fff;font-size:14px;font-weight:600;padding:10px 18px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.25);z-index:50;opacity:0;pointer-events:none;transition:opacity .2s}
+.vo-toast.show{opacity:1}
+@media (max-width:640px){.vo-head,.vo-stage{padding:16px}.vo-stepper li{min-width:92px}.vo-sum dl{grid-template-columns:1fr}.vo-nav .r{width:100%}.vo-nav .vo-btn{flex:1}}
+@media (prefers-reduced-motion:reduce){.vo-g,.vo-opt,.vo-open{transition:none}}
+
+
+/* ===== Botón y pop-up Speech Elite ===== */
+.el-open{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:8px;background:var(--orange);color:#fff;font-weight:700;font-size:15px;padding:10px 18px;border-radius:10px;border:2px solid var(--orange);box-shadow:0 2px 8px rgba(255,106,26,.25);transition:background .15s,transform .15s}
+.el-open:hover{background:#E8580C;transform:translateY(-1px)}
+.el-open:focus-visible{outline:3px solid #FFC200;outline-offset:2px}
+.el-open svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}
+.el-intro{display:flex;gap:10px;align-items:flex-start;background:var(--orange-bg);border:1px solid #F7C9AB;border-radius:10px;padding:12px 14px;font-size:14.5px;line-height:1.55;margin-bottom:16px;color:#5A2A0C}
+.el-intro svg{flex:none;width:20px;height:20px;margin-top:1px;fill:none;stroke:var(--orange-dk);stroke-width:1.8;stroke-linejoin:round}
+.el-warn{display:flex;gap:10px;align-items:flex-start;background:#FDECEC;border:1px solid #F3B5B7;border-left:5px solid #D93A40;border-radius:10px;padding:12px 14px;font-size:14.5px;line-height:1.55;color:#7A1A1F;margin-bottom:6px}
+.el-warn svg{flex:none;width:20px;height:20px;margin-top:1px;fill:none;stroke:#D93A40;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.el-warn b{display:block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
+
+/* ===== Botón y pop-up Regla Principal ===== */
+.rp-open{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--dark);font-weight:700;font-size:15px;padding:10px 18px;border-radius:10px;border:2px solid #D93A40;box-shadow:0 2px 8px rgba(35,38,47,.08);transition:background .15s,color .15s,transform .15s}
+.rp-open:hover{background:#FDECEC;transform:translateY(-1px)}
+.rp-open:focus-visible{outline:3px solid #FFC200;outline-offset:2px}
+.rp-open svg{width:20px;height:20px;fill:none;stroke:#D93A40;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+dialog.rp{width:min(940px,calc(100vw - 32px))}
+.rp-lead{background:#FAFAFC;border:1px solid var(--line);border-left:4px solid var(--orange);border-radius:10px;padding:14px 16px;font-size:15.5px;line-height:1.6;margin-bottom:16px}
+.rp-lead strong{color:#D93A40;font-weight:800}
+.rp-legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;font-size:12.5px;color:var(--muted);align-items:center}
+.rp-table{width:100%;border-collapse:separate;border-spacing:0 8px}
+.rp-table thead th{background:var(--dark);color:#fff;font-size:12.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;text-align:left;padding:10px 14px}
+.rp-table thead th:first-child{border-radius:8px 0 0 8px}
+.rp-table thead th:last-child{border-radius:0 8px 8px 0}
+.rp-table thead th.c{text-align:center}
+.rp-table td{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:13px 14px;vertical-align:top;font-size:14.5px;line-height:1.55}
+.rp-table td:first-child{border-left:5px solid var(--line);border-radius:10px 0 0 10px;font-weight:700;width:32%}
+.rp-table td:last-child{border-right:1px solid var(--line);border-radius:0 10px 10px 0}
+.rp-table td.c{text-align:center;vertical-align:middle;width:130px}
+.rp-table td p+p{margin-top:8px}
+.rp-table tr.si td:first-child{border-left-color:#2E9E5B}
+.rp-table tr.na td:first-child{border-left-color:#E8A500}
+.rp-table tr.no td:first-child{border-left-color:#D93A40}
+.rp-table tr.no td{background:#FFF8F8}
+.rp-pill{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:84px;font-weight:800;font-size:13px;letter-spacing:.05em;border-radius:999px;padding:6px 12px;white-space:nowrap}
+.rp-pill svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.rp-pill.si{background:#E4F5EA;color:#1E6B3D;border:1px solid #9FD5B1}
+.rp-pill.na{background:#FFF4D1;color:#7A5600;border:1px solid #F2D374}
+.rp-pill.no{background:#FDE3E4;color:#9B1F25;border:1px solid #F3B5B7}
+.rp-only{display:flex;gap:7px;align-items:flex-start;background:#FFF7DB;border:1px solid #F2D374;border-radius:8px;padding:7px 10px;font-size:13.5px;color:#5B4500;margin-top:8px}
+.rp-only svg{flex:none;width:15px;height:15px;margin-top:2px;fill:none;stroke:#B38600;stroke-width:2;stroke-linecap:round}
+@media (max-width:700px){
+  .rp-table thead{display:none}
+  .rp-table,.rp-table tbody,.rp-table tr,.rp-table td{display:block;width:100%}
+  .rp-table tr{margin-bottom:10px;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+  .rp-table td,.rp-table td:first-child,.rp-table td:last-child{border:none;border-radius:0;width:auto}
+  .rp-table tr.si{border-left:5px solid #2E9E5B}.rp-table tr.na{border-left:5px solid #E8A500}.rp-table tr.no{border-left:5px solid #D93A40}
+  .rp-table td.c{text-align:left;padding-top:0}
+  .rp-table td:first-child{padding-bottom:8px}
+  .rp-table td.c::before{content:"¿Dar speech? ";font-size:12px;font-weight:700;color:var(--muted);margin-right:6px}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1 style="position:absolute;left:-9999px">Matriz de beneficios por grupo (G1–G23)</h1>
+  <div class="toolbar"><button type="button" class="vo-open" id="ventasOpen" aria-pressed="false" aria-controls="viewVentas"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Speech Ventas Out</button><button type="button" class="rp-open" id="reglaOpen" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M12 8v5M12 16v.01"/></svg>Regla Principal</button><button type="button" class="el-open" id="eliteOpen" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l4.5 4L12 5l4.5 6L21 7l-2 11H5z"/><path d="M5 21h14"/></svg>Speech Elite</button><button type="button" class="faq-btn" id="faqOpen" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9.8 9.5a2.3 2.3 0 1 1 3 2.2c-.6.2-.8.6-.8 1.1v.4"/><circle cx="12" cy="16.3" r=".6" fill="currentColor"/></svg>FAQ de BLINDAJE</button></div>
+  <div id="viewMatriz">
+  <p class="hint">Desliza horizontalmente para ver todos los grupos →</p>
+  <div class="scroller" tabindex="0" aria-label="Matriz de beneficios, desplazable horizontalmente">
+    <div class="matrix">
+      <!-- Fila 1: encabezado principal -->
+      <div class="spacer" aria-hidden="true"></div>
+      <div class="h1">NAVEGAN A MENOS DE 1000 Mbps</div>
+      <div class="h1 more c-more">NAVEGAN A MÁS DE 1000 Mbps</div>
+
+      <!-- Fila 2: sub-encabezados -->
+      <div class="spacer" aria-hidden="true"></div>
+      <div class="h2">Contratado &lt;1000 Mbps</div>
+      <div class="h2 blind">Contratado &lt;1000 Mbps y con blindaje 2025</div>
+      <div class="h2">Contratado &gt;1000 Mbps</div>
+
+      <!-- Fila 3: ELITE -->
+      <div class="seg elite" role="rowheader"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l4.5 4L12 5l4.5 6L21 7l-2 11H5z"/><path d="M5 21h14"/></svg><span>ELITE</span></div>
+<article class="card g-a elite" tabindex="0" aria-label="Grupo G1"><h3><button type="button" class="gbtn" data-g="G1" aria-haspopup="dialog" aria-label="Ver speech del grupo G1"><span class="gname">G1</span><span class="gsp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span></button></h3><div class="body"><div class="benefit speed up"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17a9 9 0 1 1 18 0"/><path d="M12 17l4-5"/><path d="M3 17h18"/></svg>Upgrade</p><p class="mbps"><strong>1000</strong> <span>Mbps</span></p><p class="perm"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9c-3 0-4 1.5-4 3s1 3 4 3c3.5 0 6.5-6 10-6 3 0 4 1.5 4 3s-1 3-4 3c-3.5 0-6.5-6-10-6z"/></svg>Permanente</p></div><div class="benefit tv"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg>Agregar</p><p class="plan">WINTV<br>Premium</p><p class="dur"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>12 meses</p></div></div></article>
+<article class="card g-a elite" tabindex="0" aria-label="Grupo G2"><h3><button type="button" class="gbtn" data-g="G2" aria-haspopup="dialog" aria-label="Ver speech del grupo G2"><span class="gname">G2</span><span class="gsp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span></button></h3><div class="body"><div class="benefit speed up"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17a9 9 0 1 1 18 0"/><path d="M12 17l4-5"/><path d="M3 17h18"/></svg>Upgrade</p><p class="mbps"><strong>1000</strong> <span>Mbps</span></p><p class="perm"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9c-3 0-4 1.5-4 3s1 3 4 3c3.5 0 6.5-6 10-6 3 0 4 1.5 4 3s-1 3-4 3c-3.5 0-6.5-6-10-6z"/></svg>Permanente</p></div><div class="benefit tv"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg>Upgrade</p><p class="plan">WINTV L1MAX<br>Premium</p><p class="dur"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>12 meses</p></div></div></article>
+<article class="card g-a elite" tabindex="0" aria-label="Grupo G3"><h3><button type="button" class="gbtn" data-g="G3" aria-haspopup="dialog" aria-label="Ver speech del grupo G3"><span class="gname">G3</span><span class="gsp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span></button></h3><div class="body"><div class="benefit speed up"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17a9 9 0 1 1 18 0"/><path d="M12 17l4-5"/><path d="M3 17h18"/></svg>Upgrade</p><p class="mbps"><strong>1000</strong> <span>Mbps</span></p><p class="perm"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9c-3 0-4 1.5-4 3s1 3 4 3c3.5 0 6.5-6 10-6 3 0 4 1.5 4 3s-1 3-4 3c-3.5 0-6.5-6-10-6z"/></svg>Permanente</p></div><div class="benefit tv"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg>Upgrade</p><p class="plan">WINTV<br>Premium</p><p class="dur"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>12 meses</p></div></div></article>
+<article class="card g-a elite" tabindex="0" aria-label="Grupo G4"><h3><button type="button" class="gbtn" data-g="G4" aria-haspopup="dialog" aria-label="Ver speech del grupo G4"><span class="gname">G4</span><span class="gsp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span></button></h3><div class="body"><div class="benefit speed up"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17a9 9 0 1 1 18 0"/><path d="M12 17l4-5"/><path d="M3 17h18"/></svg>Upgrade</p><p class="mbps"><strong>1000</strong> <span>Mbps</span></p><p class="perm"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9c-3 0-4 1.5-4 3s1 3 4 3c3.5 0 6.5-6 10-6 3 0 4 1.5 4 3s-1 3-4 3c-3.5 0-6.5-6-10-6z"/></svg>Permanente</p></div></div></article>
+<article class="card g-b elite" tabindex="0" aria-label="Grupo G5"><h3><button type="button" class="gbtn" data-g="G5" aria-haspopup="dialog" aria-label="Ver speech del grupo G5"><span class="gname">G5</span><span class="gsp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span></button></h3><div class="body"><div class="benefit speed ext"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17a9 9 0 1 1 18 0"/><path d="M12 17l4-5"/><path d="M3 17h18"/></svg>Extensión</p><p class="mbps"><strong>1000</strong> <span>Mbps</span></p></div><div class="benefit tv"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg>Agregar</p><p class="plan">WINTV<br>Premium</p><p class="dur"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>12 meses</p></div></div></article>
+<article class="card g-b elite" tabindex="0" aria-label="Grupo G6"><h3><button type="button" class="gbtn" data-g="G6" aria-haspopup="dialog" aria-label="Ver speech del grupo G6"><span class="gname">G6</span><span class="gsp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span></button></h3><div class="body"><div class="benefit speed ext"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17a9 9 0 1 1 18 0"/><path d="M12 17l4-5"/><path d="M3 17h18"/></svg>Extensión</p><p class="mbps"><strong>1000</strong> <span>Mbps</span></p></div><div class="benefit tv"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg>Upgrade</p><p class="plan">WINTV L1MAX<br>Premium</p><p class="dur"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>12 meses</p></div></div></article>
+<article class="card g-b elite" tabindex="0" aria-label="Grupo G7"><h3><button type="button" class="gbtn" data-g="G7" aria-haspopup="dialog" aria-label="Ver speech del grupo G7"><span class="gname">G7</span><span class="gsp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span></button></h3><div class="body"><div class="benefit speed ext"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17a9 9 0 1 1 18 0"/><path d="M12 17l4-5"/><path d="M3 17h18"/></svg>Extensión</p><p class="mbps"><strong>1000</strong> <span>Mbps</span></p></div><div class="benefit tv"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg>Upgrade</p><p class="plan">WINTV<br>Premium</p><p class="dur"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>12 meses</p></div></div></article>
+<article class="card g-b elite" tabindex="0" aria-label="Grupo G8"><h3><button type="button" class="gbtn" data-g="G8" aria-haspopup="dialog" aria-label="Ver speech del grupo G8"><span class="gname">G8</span><span class="gsp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span></button></h3><div class="body"><div class="benefit speed ext"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17a9 9 0 1 1 18 0"/><path d="M12 17l4-5"/><path d="M3 17h18"/></svg>Extensión</p><p class="mbps"><strong>1000</strong> <span>Mbps</span></p></div></div></article>
+<article class="card g-c elite" tabindex="0" aria-label="Grupo G9"><h3><button type="button" class="gbtn" data-g="G9" aria-haspopup="dialog" aria-label="Ver speech del grupo G9"><span class="gname">G9</span><span class="gsp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span></button></h3><div class="body"><div class="benefit tv"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg>Agregar</p><p class="plan">WINTV<br>Premium</p><p class="dur"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>12 meses</p></div></div></article>
+<article class="card g-c elite" tabindex="0" aria-label="Grupo G10"><h3><button type="button" class="gbtn" data-g="G10" aria-haspopup="dialog" aria-label="Ver speech del grupo G10"><span class="gname">G10</span><span class="gsp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span></button></h3><div class="body"><div class="benefit tv"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg>Upgrade</p><p class="plan">WINTV<br>Premium</p><p class="dur"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>12 meses</p></div></div></article>
+<article class="card g-c elite" tabindex="0" aria-label="Grupo G11"><h3><button type="button" class="gbtn" data-g="G11" aria-haspopup="dialog" aria-label="Ver speech del grupo G11"><span class="gname">G11</span><span class="gsp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span></button></h3><div class="body"><div class="benefit tv"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg>Upgrade</p><p class="plan">WINTV L1MAX<br>Premium</p><p class="dur"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>12 meses</p></div></div></article>
+<article class="card g-c elite" tabindex="0" aria-label="Grupo G12"><h3><button type="button" class="gbtn" data-g="G12" aria-haspopup="dialog" aria-label="Ver speech del grupo G12"><span class="gname">G12</span><span class="gsp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span></button></h3><div class="body"><div class="winner"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l4.5 4L12 5l4.5 6L21 7l-2 11H5z"/><path d="M5 21h14"/></svg><p>Ahora eres</p><strong>WINNER<br>ELITE</strong></div></div></article>
+
+      <!-- Fila 4: NO ELITE -->
+      <div class="seg noelite" role="rowheader" style="margin-top:8px"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/><path d="M16 4a4 4 0 0 1 0 8M18 15c2.5.5 4 2.5 4 6"/></svg><span>PREFERENTE</span></div>
+<article class="card g-a noelite" tabindex="0" aria-label="Grupo G13"><h3><button type="button" class="gbtn" data-g="G13" aria-haspopup="dialog" aria-label="Ver speech del grupo G13"><span class="gname">G13</span><span class="gsp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span></button></h3><div class="body"><div class="benefit speed up"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17a9 9 0 1 1 18 0"/><path d="M12 17l4-5"/><path d="M3 17h18"/></svg>Upgrade</p><p class="mbps"><strong>1000</strong> <span>Mbps</span></p><p class="perm"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9c-3 0-4 1.5-4 3s1 3 4 3c3.5 0 6.5-6 10-6 3 0 4 1.5 4 3s-1 3-4 3c-3.5 0-6.5-6-10-6z"/></svg>Permanente</p></div><div class="benefit tv"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg>Agregar</p><p class="plan">WINTV<br>Premium</p><p class="dur"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>12 meses</p></div></div></article>
+<article class="card g-a noelite" tabindex="0" aria-label="Grupo G14"><h3><button type="button" class="gbtn" data-g="G14" aria-haspopup="dialog" aria-label="Ver speech del grupo G14"><span class="gname">G14</span><span class="gsp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span></button></h3><div class="body"><div class="benefit speed up"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17a9 9 0 1 1 18 0"/><path d="M12 17l4-5"/><path d="M3 17h18"/></svg>Upgrade</p><p class="mbps"><strong>1000</strong> <span>Mbps</span></p><p class="perm"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9c-3 0-4 1.5-4 3s1 3 4 3c3.5 0 6.5-6 10-6 3 0 4 1.5 4 3s-1 3-4 3c-3.5 0-6.5-6-10-6z"/></svg>Permanente</p></div><div class="benefit tv"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg>Upgrade</p><p class="plan">WINTV L1MAX<br>Premium</p><p class="dur"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>12 meses</p></div></div></article>
+<article class="card g-a noelite" tabindex="0" aria-label="Grupo G15"><h3><button type="button" class="gbtn" data-g="G15" aria-haspopup="dialog" aria-label="Ver speech del grupo G15"><span class="gname">G15</span><span class="gsp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span></button></h3><div class="body"><div class="benefit speed up"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17a9 9 0 1 1 18 0"/><path d="M12 17l4-5"/><path d="M3 17h18"/></svg>Upgrade</p><p class="mbps"><strong>1000</strong> <span>Mbps</span></p><p class="perm"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9c-3 0-4 1.5-4 3s1 3 4 3c3.5 0 6.5-6 10-6 3 0 4 1.5 4 3s-1 3-4 3c-3.5 0-6.5-6-10-6z"/></svg>Permanente</p></div><div class="benefit tv"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg>Upgrade</p><p class="plan">WINTV<br>Premium</p><p class="dur"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>12 meses</p></div></div></article>
+<article class="card g-a noelite" tabindex="0" aria-label="Grupo G16"><h3><button type="button" class="gbtn" data-g="G16" aria-haspopup="dialog" aria-label="Ver speech del grupo G16"><span class="gname">G16</span><span class="gsp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span></button></h3><div class="body"><div class="benefit speed up"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17a9 9 0 1 1 18 0"/><path d="M12 17l4-5"/><path d="M3 17h18"/></svg>Upgrade</p><p class="mbps"><strong>1000</strong> <span>Mbps</span></p><p class="perm"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9c-3 0-4 1.5-4 3s1 3 4 3c3.5 0 6.5-6 10-6 3 0 4 1.5 4 3s-1 3-4 3c-3.5 0-6.5-6-10-6z"/></svg>Permanente</p></div></div></article>
+<article class="card g-b noelite" tabindex="0" aria-label="Grupo G17"><h3><button type="button" class="gbtn" data-g="G17" aria-haspopup="dialog" aria-label="Ver speech del grupo G17"><span class="gname">G17</span><span class="gsp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span></button></h3><div class="body"><div class="benefit speed ext"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17a9 9 0 1 1 18 0"/><path d="M12 17l4-5"/><path d="M3 17h18"/></svg>Extensión</p><p class="mbps"><strong>1000</strong> <span>Mbps</span></p></div><div class="benefit tv"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg>Agregar</p><p class="plan">WINTV<br>Premium</p><p class="dur"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>12 meses</p></div></div></article>
+<article class="card g-b noelite" tabindex="0" aria-label="Grupo G18"><h3><button type="button" class="gbtn" data-g="G18" aria-haspopup="dialog" aria-label="Ver speech del grupo G18"><span class="gname">G18</span><span class="gsp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span></button></h3><div class="body"><div class="benefit speed ext"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17a9 9 0 1 1 18 0"/><path d="M12 17l4-5"/><path d="M3 17h18"/></svg>Extensión</p><p class="mbps"><strong>1000</strong> <span>Mbps</span></p></div><div class="benefit tv"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg>Upgrade</p><p class="plan">WINTV L1MAX<br>Premium</p><p class="dur"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>12 meses</p></div></div></article>
+<article class="card g-b noelite" tabindex="0" aria-label="Grupo G19"><h3><button type="button" class="gbtn" data-g="G19" aria-haspopup="dialog" aria-label="Ver speech del grupo G19"><span class="gname">G19</span><span class="gsp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span></button></h3><div class="body"><div class="benefit speed ext"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17a9 9 0 1 1 18 0"/><path d="M12 17l4-5"/><path d="M3 17h18"/></svg>Extensión</p><p class="mbps"><strong>1000</strong> <span>Mbps</span></p></div><div class="benefit tv"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg>Upgrade</p><p class="plan">WINTV<br>Premium</p><p class="dur"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>12 meses</p></div></div></article>
+<article class="card g-b noelite" tabindex="0" aria-label="Grupo G20"><h3><button type="button" class="gbtn" data-g="G20" aria-haspopup="dialog" aria-label="Ver speech del grupo G20"><span class="gname">G20</span><span class="gsp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span></button></h3><div class="body"><div class="benefit speed ext"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17a9 9 0 1 1 18 0"/><path d="M12 17l4-5"/><path d="M3 17h18"/></svg>Extensión</p><p class="mbps"><strong>1000</strong> <span>Mbps</span></p></div></div></article>
+<article class="card g-c noelite" tabindex="0" aria-label="Grupo G21"><h3><button type="button" class="gbtn" data-g="G21" aria-haspopup="dialog" aria-label="Ver speech del grupo G21"><span class="gname">G21</span><span class="gsp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span></button></h3><div class="body"><div class="benefit tv"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg>Agregar</p><p class="plan">WINTV<br>Premium</p><p class="dur"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>12 meses</p></div></div></article>
+<article class="card g-c noelite" tabindex="0" aria-label="Grupo G22"><h3><button type="button" class="gbtn" data-g="G22" aria-haspopup="dialog" aria-label="Ver speech del grupo G22"><span class="gname">G22</span><span class="gsp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span></button></h3><div class="body"><div class="benefit tv"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg>Upgrade</p><p class="plan">WINTV<br>Premium</p><p class="dur"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>12 meses</p></div></div></article>
+<article class="card g-c noelite" tabindex="0" aria-label="Grupo G23"><h3><button type="button" class="gbtn" data-g="G23" aria-haspopup="dialog" aria-label="Ver speech del grupo G23"><span class="gname">G23</span><span class="gsp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span></button></h3><div class="body"><div class="benefit tv"><p class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg>Upgrade</p><p class="plan">WINTV L1MAX<br>Premium</p><p class="dur"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>12 meses</p></div></div></article>
+    </div>
+  </div>
+
+  <footer class="legend">
+    <ul>
+      <li class="ls"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17a9 9 0 1 1 18 0"/><path d="M12 17l4-5"/><path d="M3 17h18"/></svg>Velocidad</li>
+      <li class="lt"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg>WINTV</li>
+    </ul>
+    <p>Upgrade de velocidad permanente. Beneficios de WINTV por 12 meses.</p>
+  </footer>
+  </div>
+  <!-- ===== MÓDULO: SPEECH VENTAS OUT ===== -->
+  <section class="vo" id="viewVentas" hidden aria-labelledby="voT">
+    <header class="vo-head">
+      <div>
+        <h2 id="voT" tabindex="-1">SPEECH VENTAS OUT</h2>
+        <p>Guía interactiva para la gestión de llamadas comerciales</p>
+      </div>
+      <div class="vo-actions">
+        <span class="vo-steplbl" id="voStepLbl" aria-live="polite"></span>
+        <button type="button" class="vo-btn light" id="voReset"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Reiniciar flujo</button>
+        <button type="button" class="vo-btn light" id="voMenu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>Menú principal</button>
+      </div>
+    </header>
+    <ol class="vo-stepper" id="voStepper" aria-label="Progreso de la llamada"></ol>
+    <div class="vo-path" id="voPath" aria-label="Recorrido de la llamada"></div>
+    <div class="vo-stage" id="voStage"></div>
+  </section>
+  <div class="vo-toast" id="voToast" role="status" aria-live="polite"></div>
+  <dialog class="sp" id="voPop" aria-labelledby="voPopT">
+    <header class="sp-head elite">
+      <div><h2 id="voPopT">Speech</h2><p>Leer al cliente antes de finalizar</p></div>
+      <button type="button" class="sp-x" id="voPopX" aria-label="Cerrar y seguir en el speech"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </header>
+    <div class="sp-body">
+      <div class="sp-label"><span class="vo-read"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Speech</span><button type="button" class="copy" id="voPopCopy"></button></div>
+      <div class="sp-box" id="voPopTxt"></div>
+    </div>
+    <footer class="sp-foot">
+      <button type="button" class="nav" id="voPopStay">← Seguir en el speech</button>
+      <button type="button" class="vo-btn primary" id="voPopGo">Ir al menú principal →</button>
+    </footer>
+  </dialog>
+
+</main>
+
+<dialog class="sp" id="sp" aria-labelledby="spT">
+  <header class="sp-head" id="spH">
+    <div><h2 id="spT"></h2><p id="spB"></p></div>
+    <button type="button" class="sp-x" id="spX" aria-label="Cerrar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </header>
+  <div class="sp-body" id="spBody"></div>
+  <footer class="sp-foot">
+    <button type="button" class="nav" id="spPrev">← Anterior</button>
+    <small>Esc para cerrar · ← → para cambiar de grupo</small>
+    <button type="button" class="nav" id="spNext">Siguiente →</button>
+  </footer>
+</dialog>
+<script>
+const SPEECH={"G1": {"t": "G1 – Elite | MONO", "b": "Upgrade 1000 Mbps + WIN TV Premium", "p": ["“[Nombre], hemos aumentado la velocidad de tu internet a 1000 Mbps de forma permanente y sin costo adicional, para que puedas disfrutar aún más tu conexión en casa.", "Además, tendrás WIN TV Premium gratis por 12 meses, con más de 90 canales en vivo de películas, series y entretenimiento para pausar, retroceder y ver hasta en 4 pantallas al mismo tiempo.", "Y quiero contarte algo más, desde hoy formas parte de WIN Elite, nuestro grupo de clientes con atención prioritaria las 24 horas del día.”"], "c": "“Para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937.”"}, "G2": {"t": "G2 – Elite | DUO", "b": "Upgrade 1000 Mbps + WIN TV L1 Max Premium", "p": ["“[Nombre], hemos aumentado la velocidad de tu internet a 1000 Mbps de forma permanente y sin costo adicional, para que puedas disfrutar aún más tu conexión en casa.", "Además, ahora tienes WIN TV L1 MAX Premium sin costo adicional, con más de 90 canales en vivo y lo mejor del futbol nacional para pausar, retroceder y ver hasta en 4 pantallas al mismo tiempo.", "Y quiero contarte algo más, desde hoy formas parte de WIN Elite, nuestro grupo de clientes con atención prioritaria las 24 horas del día.”"], "c": "“Para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937.”"}, "G3": {"t": "G3 – Elite | DUO", "b": "Upgrade 1000 Mbps + WIN TV Premium", "p": ["“[Nombre], hemos aumentado la velocidad de tu internet a 1000 Mbps de forma permanente y sin costo adicional, para que puedas disfrutar aún más tu conexión en casa.", "Además, hemos mejorado tu experiencia con WIN TV Premium sin costo adicional, con más de 90 canales en vivo de películas, series y entretenimiento para pausar, retroceder y ver hasta en 4 pantallas al mismo tiempo.", "Y quiero contarte algo más, desde hoy formas parte de WIN Elite, nuestro grupo de clientes con atención prioritaria las 24 horas del día.”"], "c": "“Para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937.”"}, "G4": {"t": "G4 – Elite | DUO con TV", "b": "Upgrade 1000 Mbps", "p": ["“[Nombre], hemos aumentado la velocidad de tu internet a 1000 Mbps de forma permanente y sin costo adicional, para que puedas disfrutar aún más tu conexión en casa.", "Además, desde hoy formas parte de WIN Elite, nuestro grupo de clientes con atención prioritaria las 24 horas del día.”"], "c": "“Para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937.”"}, "G5": {"t": "G5 – Elite | MONO", "b": "Extensión 1000 Mbps + WIN TV Premium", "p": ["“[Nombre], tu beneficio de 1000 Mbps se ha extendido de manera gratuita para que sigas disfrutando de una mayor capacidad de navegación en casa.", "Además, hemos mejorado tu experiencia con WIN TV Premium gratis por 12 meses, con más de 90 canales en vivo de películas, series y entretenimiento para pausar, retroceder y ver hasta en 4 pantallas al mismo tiempo.", "Y quiero contarte algo más, desde hoy formas parte de WIN Elite, nuestro grupo de clientes con atención prioritaria las 24 horas del día.”"], "c": "“Para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937.”"}, "G6": {"t": "G6 – Elite | DUO", "b": "Extensión 1000 Mbps + WIN TV L1 Max Premium", "p": ["“[Nombre], tu beneficio de 1000 Mbps se ha extendido de manera gratuita para que sigas disfrutando de una mayor capacidad de navegación en casa.", "Además, tendrás WIN TV L1 MAX Premium sin costo adicional, con más de 90 canales en vivo y lo mejor del futbol nacional para pausar, retroceder y ver hasta en 4 pantallas al mismo tiempo.", "Y quiero contarte algo más, desde hoy formas parte de WIN Elite, nuestro grupo de clientes con atención prioritaria las 24 horas del día.”"], "c": "“Para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937.”"}, "G7": {"t": "G7 – Elite | DUO", "b": "Extensión 1000 Mbps + WIN TV Premium", "p": ["“[Nombre], tu beneficio de 1000 Mbps se ha extendido de manera gratuita para que sigas disfrutando de una mayor capacidad de navegación en casa.", "Además, hemos mejorado tu experiencia con WIN TV Premium sin costo adicional, con más de 90 canales en vivo de películas, series y entretenimiento para pausar, retroceder y ver hasta en 4 pantallas al mismo tiempo.", "Y quiero contarte algo más, desde hoy formas parte de WIN Elite, nuestro grupo de clientes con atención prioritaria las 24 horas del día.”"], "c": "“Para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937.”"}, "G8": {"t": "G8 – Elite | DUO con TV", "b": "Extensión 1000 Mbps", "p": ["“[Nombre], tu beneficio de 1000 Mbps se ha extendido de manera gratuita para que sigas disfrutando de una mayor capacidad de navegación en casa.", "Además, desde hoy formas parte de WIN Elite, nuestro grupo de clientes con atención prioritaria las 24 horas del día.”"], "c": "“Para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937.”"}, "G9": {"t": "G9 – Elite | MONO", "b": "WIN TV Premium", "p": ["“[Nombre], hemos mejorado tu experiencia con WIN TV Premium gratis por 12 meses, con más de 90 canales en vivo de películas, series y entretenimiento para pausar, retroceder y ver hasta en 4 pantallas al mismo tiempo.", "Y quiero contarte algo más, desde hoy formas parte de WIN Elite, nuestro grupo de clientes con atención prioritaria las 24 horas del día.”"], "c": "“Para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937.”"}, "G10": {"t": "G10 – Elite | DUO", "b": "Upgrade WIN TV Premium", "p": ["“[Nombre], hemos mejorado tu experiencia con WIN TV Premium sin costo adicional, con más de 90 canales en vivo de películas, series y entretenimiento para pausar, retroceder y ver hasta en 4 pantallas al mismo tiempo.", "Y quiero contarte algo más, desde hoy formas parte de WIN Elite, nuestro grupo de clientes con atención prioritaria las 24 horas del día.”"], "c": "“Para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937.”"}, "G11": {"t": "G11 – Elite | DUO", "b": "Upgrade WIN TV L1 Max Premium", "p": ["“[Nombre], hemos mejorado tu experiencia con WIN TV L1 MAX Premium sin costo adicional, con más de 90 canales en vivo y lo mejor del futbol nacional para pausar, retroceder y ver hasta en 4 pantallas al mismo tiempo.", "Y quiero contarte algo más, desde hoy formas parte de WIN Elite, nuestro grupo de clientes con atención prioritaria las 24 horas del día.”"], "c": "“Para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937.”"}, "G12": {"t": "G12 – Elite", "b": "Solo WIN Elite", "p": ["“[Nombre], quiero contarte una mejora en tu experiencia de atención. Desde hoy formas parte de WIN Elite, nuestro grupo de clientes con atención prioritaria las 24 horas del día. Asimismo, para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937.”"], "c": null}, "G13": {"t": "G13 – PREFERENTE | MONO", "b": "Upgrade 1000 Mbps + WIN TV Premium", "p": ["“[Nombre], hemos aumentado la velocidad de tu internet a 1000 Mbps de forma permanente y sin costo adicional, para que puedas disfrutar aún más tu conexión en casa.", "Además, tendrás WIN TV Premium gratis por 12 meses, con más de 90 canales en vivo de películas, series y entretenimiento para pausar, retroceder y ver hasta en 4 pantallas al mismo tiempo.", "Asimismo, para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937.”"], "c": null}, "G14": {"t": "G14 – PREFERENTE | DUO", "b": "Upgrade 1000 Mbps + WIN TV L1 Max Premium", "p": ["“[Nombre], hemos aumentado la velocidad de tu internet a 1000 Mbps de forma permanente y sin costo adicional, para que puedas disfrutar aún más tu conexión en casa.", "Además, tendrás WIN TV L1 MAX Premium sin costo adicional, con más de 90 canales en vivo y lo mejor del futbol nacional para pausar, retroceder y ver hasta en 4 pantallas al mismo tiempo.", "Asimismo, para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937.”"], "c": null}, "G15": {"t": "G15 – PREFERENTE | DUO", "b": "Upgrade 1000 Mbps + WIN TV Premium", "p": ["“[Nombre], hemos aumentado la velocidad de tu internet a 1000 Mbps de forma permanente y sin costo adicional, para que puedas disfrutar aún más tu conexión en casa.", "Además, hemos mejorado tu experiencia con WIN TV Premium sin costo adicional, con más de 90 canales en vivo de películas, series y entretenimiento para pausar, retroceder y ver hasta en 4 pantallas al mismo tiempo.", "Para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937.”"], "c": null}, "G16": {"t": "G16 – PREFERENTE | DUO con TV", "b": "Upgrade 1000 Mbps", "p": ["“[Nombre], hemos aumentado la velocidad de tu internet a 1000 Mbps de forma permanente y sin costo adicional, para que puedas disfrutar aún más tu conexión en casa.", "Asimismo, para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937.”"], "c": null}, "G17": {"t": "G17 – PREFERENTE | MONO", "b": "Extensión 1000 Mbps + WIN TV Premium", "p": ["“[Nombre], tu beneficio de 1000 Mbps se ha extendido de manera gratuita para que sigas disfrutando de una mayor capacidad de navegación en casa.", "Además, hemos mejorado tu experiencia con WIN TV Premium gratis por 12 meses, con más de 90 canales en vivo de películas, series y entretenimiento para pausar, retroceder y ver hasta en 4 pantallas al mismo tiempo.", "Para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937.”"], "c": null}, "G18": {"t": "G18 – PREFERENTE | DUO", "b": "Extensión 1000 Mbps + WIN TV L1 Max Premium", "p": ["“[Nombre], tu beneficio de 1000 Mbps se ha extendido de manera gratuita para que sigas disfrutando de una mayor capacidad de navegación en casa.", "Además, tendrás WIN TV L1 MAX Premium sin costo adicional, con más de 90 canales en vivo y lo mejor del futbol nacional para pausar, retroceder y ver hasta en 4 pantallas al mismo tiempo.", "Para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937.”"], "c": null}, "G19": {"t": "G19 – PREFERENTE | DUO", "b": "Extensión 1000 Mbps + WIN TV Premium", "p": ["“[Nombre], tu beneficio de 1000 Mbps se ha extendido de manera gratuita para que sigas disfrutando de una mayor capacidad de navegación en casa.", "Además, hemos mejorado tu experiencia con WIN TV Premium sin costo adicional, con más de 90 canales en vivo de películas, series y entretenimiento para pausar, retroceder y ver hasta en 4 pantallas al mismo tiempo.", "Para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937.”"], "c": null}, "G20": {"t": "G20 – PREFERENTE | DUO con TV", "b": "Extensión 1000 Mbps", "p": ["“[Nombre], tu beneficio de 1000 Mbps se ha extendido de manera gratuita para que sigas disfrutando de una mayor capacidad de navegación en casa.", "Para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937.”"], "c": null}, "G21": {"t": "G21 – PREFERENTE | MONO", "b": "WIN TV Premium", "p": ["“[Nombre], hemos mejorado tu experiencia con WIN TV Premium gratis por 12 meses, con más de 90 canales en vivo de películas, series y entretenimiento para pausar, retroceder y ver hasta en 4 pantallas al mismo tiempo", "Asimismo, para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937.”"], "c": null}, "G22": {"t": "G22 – PREFERENTE | DUO", "b": "Upgrade WIN TV Premium", "p": ["“[Nombre], hemos mejorado tu experiencia con WIN TV Premium sin costo adicional, con más de 90 canales en vivo de películas, series y entretenimiento para pausar, retroceder y ver hasta en 4 pantallas al mismo tiempo", "Asimismo, para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937.”"], "c": null}, "G23": {"t": "G23 – PREFERENTE | DUO", "b": "Upgrade WIN TV L1 Max Premium", "p": ["“[Nombre], hemos mejorado tu experiencia con WIN TV L1 MAX Premium sin costo adicional, con más de 90 canales en vivo y lo mejor del futbol nacional para pausar, retroceder y ver hasta en 4 pantallas al mismo tiempo.", "Asimismo, para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937.”"], "c": null}};
+const ORDER=Object.keys(SPEECH);
+const dlg=document.getElementById('sp');
+let cur=null, opener=null;
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const hl=s=>esc(s).replace(/\[Nombre\]/g,'<span class="ph">[Nombre]</span>');
+const copyIc='<svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/></svg>';
+function box(label,paras,cls){
+  return `<div class="sp-label"><span>${label}</span><button type="button" class="copy" data-copy="${esc(paras.join('\n\n')).replace(/"/g,'&quot;')}">${copyIc}Copiar</button></div>
+  <div class="sp-box ${cls||''}">${paras.map(p=>`<p>${hl(p)}</p>`).join('')}</div>`;
+}
+function render(g){
+  cur=g; const d=SPEECH[g]; const n=+g.slice(1);
+  document.getElementById('spH').className='sp-head '+(n<=12?'elite':'noelite');
+  document.getElementById('spT').textContent=d.t;
+  document.getElementById('spB').textContent=d.b;
+  let h=box('Speech',d.p);
+  if(d.c) h+=box('Cerrar la comunicación con el siguiente speech:',[d.c],'close');
+  const body=document.getElementById('spBody'); body.innerHTML=h; body.scrollTop=0;
+  const i=ORDER.indexOf(g);
+  document.getElementById('spPrev').disabled=i===0;
+  document.getElementById('spNext').disabled=i===ORDER.length-1;
+}
+document.querySelectorAll('.gbtn').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();opener=b;render(b.dataset.g);dlg.showModal();}));
+document.getElementById('spX').onclick=()=>dlg.close();
+document.getElementById('spPrev').onclick=()=>render(ORDER[ORDER.indexOf(cur)-1]);
+document.getElementById('spNext').onclick=()=>render(ORDER[ORDER.indexOf(cur)+1]);
+dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close();});
+dlg.addEventListener('close',()=>{if(opener)opener.focus();});
+dlg.addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft'&&!document.getElementById('spPrev').disabled)render(ORDER[ORDER.indexOf(cur)-1]);
+  if(e.key==='ArrowRight'&&!document.getElementById('spNext').disabled)render(ORDER[ORDER.indexOf(cur)+1]);
+});
+document.getElementById('spBody').addEventListener('click',async e=>{
+  const b=e.target.closest('.copy'); if(!b)return;
+  const txt=b.dataset.copy;
+  try{await navigator.clipboard.writeText(txt);}catch(_){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(_){}ta.remove();}
+  b.classList.add('ok'); b.innerHTML='✓ Copiado'; setTimeout(()=>{b.classList.remove('ok');b.innerHTML=copyIc+'Copiar';},1600);
+});
+</script>
+
+<dialog class="sp faq" id="faq" aria-labelledby="faqT">
+  <header class="sp-head noelite">
+    <div><h2 id="faqT">FAQ de BLINDAJE</h2><p>Preguntas frecuentes · Respuesta sugerida – Estilo WIN</p></div>
+    <button type="button" class="sp-x" id="faqX" aria-label="Cerrar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </header>
+  <div class="sp-body">
+    <label class="faq-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input type="search" id="faqQ" placeholder="Buscar pregunta o palabra clave…" aria-label="Buscar en las preguntas frecuentes"></label>
+    <div class="faq-tools"><span id="faqCount"></span><span><button type="button" class="linkbtn" id="faqAll">Expandir todo</button> · <button type="button" class="linkbtn" id="faqNone">Contraer todo</button></span></div>
+    <div id="faqList"></div>
+  </div>
+</dialog>
+<script>
+const FAQ=[{"q": "¿Por qué WIN me está dando este beneficio o haciendo este cambio?", "a": [{"k": "say", "l": null, "t": "“Queremos que sigas aprovechando al máximo tu servicio WIN. Por eso, hemos habilitado para ti este beneficio, pensando siempre en darte más y seguir acompañándote con una gran experiencia.”"}]}, {"q": "¿Esto tiene algún costo adicional?", "a": [{"k": "say", "l": null, "t": "“No. Este beneficio ha sido habilitado para ti sin costo adicional durante el periodo informado.”"}]}, {"q": "¿Por cuánto tiempo tendré este beneficio?", "a": [{"k": "say", "l": "Si es velocidad 1000 Mbps:", "t": "“Este beneficio es permanente y sin costo adicional.”"}, {"k": "say", "l": "Si es WIN TV Premium / WIN TV L1 Max Premium:", "t": "“Este beneficio estará disponible para ti durante 12 meses, sin costo adicional.”"}]}, {"q": "¿Qué pasa después de los 12 meses? ¿Me van a empezar a cobrar?", "a": [{"k": "say", "l": null, "t": "“No. Al finalizar los 12 meses, el beneficio se desactivará automáticamente y no se generará ningún cobro adicional en tu servicio.”"}]}, {"q": "¿Tengo que solicitarlo o ya está activo?", "a": [{"k": "say", "l": null, "t": "“No necesitas hacer ninguna solicitud. Este beneficio ya ha sido habilitado para ti para que puedas empezar a disfrutarlo.”"}]}, {"q": "¿Puedo rechazar o retirar el beneficio?", "a": [{"k": "say", "l": null, "t": "“Sí, puedes solicitar el retiro del beneficio si así lo deseas. Podemos registrar tu solicitud para gestionar el cambio correspondiente. Recuerda que, al realizar el downgrade perderás los beneficios que hemos activado para ti.”"}, {"k": "note", "l": "Observación interna:", "t": "Realizar downgrade luego de REBATIR"}]}, {"q": "Recibí un WhatsApp o correo sobre este beneficio. ¿Es realmente de WIN?", "a": [{"k": "say", "l": null, "t": "“Sí, la comunicación que recibiste es de WIN. Este beneficio ha sido habilitado para ti como parte de las mejoras que venimos realizando para que sigas aprovechando al máximo tu servicio y sigas teniendo una gran experiencia con nosotros.”"}]}, {"q": "¿Qué costo tiene normalmente este beneficio?", "a": [{"k": "say", "l": null, "t": "“Este beneficio tiene un valor regular de S/ [9.90 / 19.90] al mes, pero en tu caso lo tendrás sin costo adicional durante 12 meses.”"}, {"k": "note", "l": "No leer:", "t": "utilizar solo como herramienta de rebate cuando el cliente consulte por el valor del beneficio."}]}, {"q": "¿Por qué aumentó mi velocidad?", "a": [{"k": "say", "l": null, "t": "“Queremos agradecer la confianza que depositas en WIN. Por eso, tu servicio ahora cuenta con mayor velocidad para que disfrutes aún más tu conexión en casa, sin ningún costo adicional.”"}]}, {"q": "¿Voy a tener siempre 1000 Mbps?", "a": [{"k": "say", "l": null, "t": "“Sí. Tu servicio contará con 1000 Mbps de velocidad de forma permanente, para que sigas disfrutando tu conexión sin ningún costo adicional.”"}]}, {"q": "¿Cómo ingreso a WIN TV?", "a": [{"k": "note", "l": "Observación interna:", "t": "seguir el flujo regular de acceso / recuperación de credenciales de WIN TV vigente en operación."}]}];
+(function(){
+  const d=document.getElementById('faq'), list=document.getElementById('faqList'), q=document.getElementById('faqQ');
+  const warn='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.01"/></svg>';
+  const chev='<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+  list.innerHTML=FAQ.map((f,i)=>`<details class="qa" data-s="${esc((f.q+' '+f.a.map(a=>(a.l||'')+' '+a.t).join(' ')).toLowerCase())}">
+    <summary><span class="qn">${i+1}</span><span class="qt">${esc(f.q)}</span>${chev}</summary>
+    <div class="qa-body">${f.a.map(a=>a.k==='say'
+      ?`<div class="ans">${a.l?`<span class="cond">• ${esc(a.l)}</span>`:''}<p>${esc(a.t)}</p><div class="ans-row"><button type="button" class="copy" data-copy="${esc(a.t).replace(/"/g,'&quot;')}">${copyIc}Copiar</button></div></div>`
+      :`<div class="note">${warn}<span><b>${esc(a.l)}</b> ${esc(a.t)}</span></div>`).join('')}</div></details>`).join('')+'<p class="empty" id="faqEmpty" hidden>No hay preguntas que coincidan con tu búsqueda.</p>';
+  const items=[...list.querySelectorAll('.qa')];
+  const norm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  function filter(){const v=norm(q.value.trim());let n=0;items.forEach(it=>{const ok=!v||norm(it.dataset.s).includes(v);it.hidden=!ok;if(ok)n++;});
+    document.getElementById('faqCount').textContent=n+' de '+items.length+' preguntas';document.getElementById('faqEmpty').hidden=n>0;}
+  q.addEventListener('input',filter); filter();
+  document.getElementById('faqAll').onclick=()=>items.forEach(i=>{if(!i.hidden)i.open=true});
+  document.getElementById('faqNone').onclick=()=>items.forEach(i=>i.open=false);
+  const op=document.getElementById('faqOpen');
+  op.onclick=()=>{d.showModal();};
+  document.getElementById('faqX').onclick=()=>d.close();
+  d.addEventListener('click',e=>{if(e.target===d)d.close();});
+  d.addEventListener('close',()=>op.focus());
+  list.addEventListener('click',async e=>{const b=e.target.closest('.copy');if(!b)return;const txt=b.dataset.copy;
+    try{await navigator.clipboard.writeText(txt);}catch(_){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(_){}ta.remove();}
+    b.classList.add('ok');b.innerHTML='✓ Copiado';setTimeout(()=>{b.classList.remove('ok');b.innerHTML=copyIc+'Copiar';},1600);});
+})();
+</script>
+<script>
+/* ===== MÓDULO SPEECH VENTAS OUT (autocontenido, sin dependencias externas) ===== */
+(function(){
+  const $=id=>document.getElementById(id);
+  const viewM=$('viewMatriz'), viewV=$('viewVentas'), openBtn=$('ventasOpen'), stage=$('voStage'), pop=$('voPop');
+  const STEPS=['Saludo','Respuesta del cliente'];
+  const SALUDO=['“Hola, [nombre], ¿cómo estás? Te habla [asesor] de WIN.','Te estamos contactando porque venimos realizando mejoras para que sigas disfrutando al máximo tu servicio y queremos conocer cómo viene siendo tu experiencia con nosotros.','Cuéntame, ¿cómo te ha ido con tu servicio últimamente?”'];
+  const RESP={
+    A:{label:'MUY BIEN',p:['“¡Qué bueno saberlo, [nombre]! Nos alegra mucho que estés teniendo una buena experiencia con tu servicio.','Y justamente queremos que sigas disfrutándolo al máximo. Por eso, tenemos un beneficio disponible para ti.”']},
+    B:{label:'NORMAL / TODO TRANQUILO / SIN PROBLEMAS',p:['“Gracias por contármelo, [nombre]. Te comento que venimos realizando optimizaciones en nuestra red para que tu servicio siga funcionando cada vez mejor y, en los próximos días, puedas ir notando estos cambios.','Adicional a estas optimizaciones, tenemos un beneficio disponible para ti.”']},
+    C:{label:'TIENE PROBLEMAS CON EL SERVICIO',p:['“Gracias por contármelo, [nombre]. Cuéntame un poco más, ¿qué está pasando con tu servicio?”']}
+  };
+  const BEN_SPEECH='“[Nombre], desde hoy tendrás de forma permanente [beneficio asignado], sin costo adicional para ti.”';
+
+  const fresh=()=>({step:1,resp:null});
+  let st=fresh();
+
+  const e=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const ph=s=>e(s).replace(/\[(nombre|Nombre|asesor|beneficio asignado)\]/g,'<span class="ph">$&</span>');
+  const I={
+    read:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>',
+    warn:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.01"/></svg>',
+    down:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M6 14l6 6 6-6"/></svg>',
+    back:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>',
+    next:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>',
+    tool:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.5-.5-.5-2.5z"/></svg>'
+  };
+  /* Tarjeta de speech: reutiliza .sp-label / .sp-box / .copy del módulo de speeches existente */
+  function speech(paras){
+    return `<div class="sp-label"><span class="vo-read">${I.read}Leer al cliente</span><button type="button" class="copy" data-copy="${e(paras.join('\n\n'))}">${copyIc}Copiar</button></div>
+      <div class="sp-box">${paras.map(p=>`<p>${ph(p)}</p>`).join('')}</div>`;
+  }
+  const note=(lbl,txt)=>`<div class="note">${I.warn}<span><b>${e(lbl)}</b> ${e(txt)}</span></div>`;
+  const arrow=()=>`<div class="vo-arrow">${I.down}</div>`;
+  const h3=(n,t)=>`<h3 class="vo-h3"><span class="vo-num">PASO ${n}</span>${e(t)}</h3>`;
+
+  function chrome(){
+    const C=st.resp==='C';
+    $('voStepper').innerHTML=STEPS.map((s,i)=>{const n=i+1;const cls=n<st.step?'done':n===st.step?'cur':'';
+      return `<li class="${cls}"><button type="button" data-goto="${n}" ${n<st.step?'':'disabled'} ${n===st.step?'aria-current="step"':''} aria-label="Paso ${n}: ${s}${n<st.step?' (volver a este paso)':''}"><span class="vo-dot">${n<st.step?'✓':n}</span><span class="vo-sname">${s}</span></button></li>`;}).join('');
+    $('voStepLbl').textContent=C&&st.step===2?'Paso 2 de 2 · Atención de inconvenientes':`Paso ${st.step} de 2 · ${STEPS[st.step-1]}`;
+    const chips=['<b>Recorrido:</b>','<span class="vo-chip">Inicio</span>'];
+    if(st.step>=2) chips.push('→','<span class="vo-chip">Saludo</span>');
+    if(st.step>=2&&st.resp) chips.push('→',`<span class="vo-chip${C?' warn':''}">${st.resp}. ${e(RESP[st.resp].label)}</span>`);
+    $('voPath').innerHTML=chips.join(' ');
+  }
+
+  function s1(){return h3(1,'Saludo')+speech(SALUDO)+note('NO LEER AL CLIENTE:','Escuchar la respuesta completa y continuar según corresponda.')+
+    `<div class="vo-nav"><span></span><div class="r"><button type="button" class="vo-btn primary" data-act="go" data-n="2">Seleccionar respuesta del cliente ${I.next}</button></div></div>`;}
+
+  function s2(){
+    let h=h3(2,'Respuesta del cliente')+`<p class="vo-q" id="voQ2lbl">¿Cómo respondió el cliente?</p><div class="vo-opts" role="group" aria-labelledby="voQ2lbl">`+
+      ['A','B','C'].map(k=>`<button type="button" class="vo-opt${k==='C'?' alt':''}" data-act="resp" data-k="${k}" aria-pressed="${st.resp===k}"><span class="vo-letter">${k}</span><span>${e(RESP[k].label)}${k==='C'?'<small>Atención de inconvenientes</small>':''}</span></button>`).join('')+'</div>';
+    let next='';
+    if(st.resp==='A'||st.resp==='B'){
+      h+=arrow()+speech(RESP[st.resp].p);
+      next=`<button type="button" class="vo-btn primary" data-act="finish" aria-haspopup="dialog">Continuar ${I.next}</button>`;
+    } else if(st.resp==='C'){
+      h+=arrow()+`<div class="vo-branch">${I.warn.replace('<svg','<svg width="16" height="16" style="fill:none;stroke:#9B2C2C;stroke-width:2"')}Rama de atención de inconvenientes · No continúa al ofrecimiento del beneficio.</div>`+
+        speech(RESP.C.p)+
+        `<div class="vo-action"><h4>${I.tool}ACCIÓN DEL ASESOR</h4><div><p>Escuchar al cliente y realizar los descartes correspondientes.</p><p>Si, luego de los descartes, se identifica que el inconveniente persiste o es necesario realizar una transferencia, seguir el <strong>PROTOCOLO ATC TRANSFERENCIA A AT</strong>.</p></div></div>`;
+      next=`<button type="button" class="vo-btn dark" data-act="clearResp">${I.back} Volver a las opciones de respuesta</button>`;
+    }
+    return h+`<div class="vo-nav"><button type="button" class="vo-btn ghost" data-act="back">${I.back} Volver</button><div class="r">${next}</div></div>`;
+  }
+
+  function draw(focus){
+    chrome();
+    stage.innerHTML=[null,s1,s2][st.step]();
+    if(focus){ $('voT').focus({preventScroll:true}); viewV.scrollIntoView({block:'start'}); }
+  }
+  function go(n){st.step=n;draw(true);}
+  function toast(t){const el=$('voToast');el.textContent=t;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),1800);}
+  function reset(){st=fresh();draw(true);toast('Flujo reiniciado · nueva llamada');}
+  function showView(v){
+    const ventas=v==='ventas';
+    viewM.hidden=ventas; viewV.hidden=!ventas;
+    openBtn.setAttribute('aria-pressed',String(ventas));
+    window.scrollTo(0,0);
+    if(ventas){draw(false);$('voT').focus({preventScroll:true});} else openBtn.focus();
+  }
+
+  /* Pop-up final (A y B): muestra el speech del beneficio y luego redirige al menú principal */
+  $('voPopTxt').innerHTML=`<p>${ph(BEN_SPEECH)}</p>`;
+  $('voPopCopy').dataset.copy=BEN_SPEECH; $('voPopCopy').innerHTML=copyIc+'Copiar';
+  let goMenu=false;
+  $('voPopGo').addEventListener('click',()=>{goMenu=true;pop.close();});
+  $('voPopX').addEventListener('click',()=>pop.close());
+  $('voPopStay').addEventListener('click',()=>pop.close());
+  pop.addEventListener('click',ev=>{if(ev.target===pop)pop.close();});
+  pop.addEventListener('close',()=>{
+    if(goMenu){ goMenu=false; st=fresh(); showView('matriz'); toast('Llamada finalizada · Menú principal'); }
+    else { const f=stage.querySelector('[data-act="finish"]'); f&&f.focus(); }
+  });
+
+  openBtn.addEventListener('click',()=>showView('ventas'));
+  $('voMenu').addEventListener('click',()=>showView('matriz'));
+  $('voReset').addEventListener('click',reset);
+  $('voStepper').addEventListener('click',ev=>{const b=ev.target.closest('[data-goto]');if(b&&!b.disabled)go(+b.dataset.goto);});
+
+  async function doCopy(cp){
+    const txt=cp.dataset.copy;
+    try{await navigator.clipboard.writeText(txt);}catch(_){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(_){}ta.remove();}
+    cp.classList.add('ok');cp.innerHTML='✓ Copiado';setTimeout(()=>{cp.classList.remove('ok');cp.innerHTML=copyIc+'Copiar';},1600);
+  }
+  $('voPopCopy').addEventListener('click',ev=>doCopy(ev.currentTarget));
+  viewV.addEventListener('click',ev=>{
+    const cp=ev.target.closest('.copy'); if(cp){ doCopy(cp); return; }
+    const b=ev.target.closest('[data-act]'); if(!b||b.disabled) return;
+    switch(b.dataset.act){
+      case 'go': go(+b.dataset.n); break;
+      case 'back': go(Math.max(1,st.step-1)); break;
+      case 'resp': st.resp=b.dataset.k; draw(false); { const f=stage.querySelector(`[data-act="resp"][data-k="${st.resp}"]`); f&&f.focus(); } break;
+      case 'clearResp': st.resp=null; draw(false); { const f=stage.querySelector('[data-act="resp"]'); f&&f.focus(); } break;
+      case 'finish': goMenu=false; pop.showModal(); $('voPopGo').focus(); break;
+    }
+  });
+})();
+</script>
+
+
+<dialog class="sp" id="elitePop" aria-labelledby="eliteT">
+  <header class="sp-head elite">
+    <div><h2 id="eliteT">Speech Elite</h2><p>Plan Blindaje · Cliente ELITE</p></div>
+    <button type="button" class="sp-x" id="eliteX" aria-label="Cerrar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </header>
+  <div class="sp-body" id="eliteBody">
+    <div class="el-intro"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg><span>Para el Plan Blindaje Cliente ELITE, al ingresar al aplicativo Vista 360°aparecera un Pop_up con los siguientes speech</span></div>
+    <div class="sp-label"><span>Speech</span><button type="button" class="copy" data-copy="Juan, hemos aumentado la velocidad de tu internet a 1000 Mbps de forma permanente y sin costo adicional, para que puedas disfrutar aún más tu conexión en casa.&#10;Además, desde hoy formas parte de WIN Elite, nuestro grupo de clientes con atención prioritaria las 24 horas del día."></button></div>
+    <div class="sp-box"><p>"Juan, hemos aumentado la velocidad de tu internet a 1000 Mbps de forma permanente y sin costo adicional, para que puedas disfrutar aún más tu conexión en casa.</p><p>Además, desde hoy formas parte de WIN Elite, nuestro grupo de clientes con atención prioritaria las 24 horas del día."</p></div>
+    <div class="sp-label"><span>Cierre</span><button type="button" class="copy" data-copy="Para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937."></button></div>
+    <div class="sp-box close"><p>"Para una atención más rápida de tus consultas o solicitudes, te recomiendo guardar nuestro número de WhatsApp 940 061 937."</p></div>
+    <div class="el-warn" role="note"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.01"/></svg><span><b>Advertencia</b>Primero resolver, luego comunicar. No usar si hay problema activo, molestia, reclamo o intención de baja (solo si el cliente pregunta por el beneficio o la comunicación recibida).</span></div>
+  </div>
+  <footer class="sp-foot"><span></span><button type="button" class="nav" id="eliteClose">Cerrar</button></footer>
+</dialog>
+<script>
+/* ===== Pop-up Speech Elite ===== */
+(function(){
+  const d=document.getElementById('elitePop'), op=document.getElementById('eliteOpen');
+  d.querySelectorAll('.copy').forEach(b=>b.innerHTML=copyIc+'Copiar');
+  op.addEventListener('click',()=>d.showModal());
+  document.getElementById('eliteX').addEventListener('click',()=>d.close());
+  document.getElementById('eliteClose').addEventListener('click',()=>d.close());
+  d.addEventListener('click',e=>{if(e.target===d)d.close();});
+  d.addEventListener('close',()=>op.focus());
+  document.getElementById('eliteBody').addEventListener('click',async e=>{
+    const b=e.target.closest('.copy'); if(!b) return; const txt=b.dataset.copy;
+    try{await navigator.clipboard.writeText(txt);}catch(_){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(_){}ta.remove();}
+    b.classList.add('ok');b.innerHTML='✓ Copiado';setTimeout(()=>{b.classList.remove('ok');b.innerHTML=copyIc+'Copiar';},1600);
+  });
+})();
+</script>
+
+<dialog class="sp rp" id="reglaPop" aria-labelledby="reglaT">
+  <header class="sp-head noelite">
+    <div><h2 id="reglaT">1. Regla principal: primero resolver, luego comunicar</h2></div>
+    <button type="button" class="sp-x" id="reglaX" aria-label="Cerrar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </header>
+  <div class="sp-body">
+    <p class="rp-lead">El speech de blindaje debe utilizarse únicamente cuando el momento de la conversación lo permita. <strong>Un beneficio nunca debe competir con una fricción activa del cliente.</strong></p>
+    <table class="rp-table">
+      <thead><tr><th scope="col">Momento de la interacción</th><th scope="col" class="c">¿Dar speech?</th><th scope="col">Criterio para el asesor</th></tr></thead>
+      <tbody><tr class="si"><td>Cliente consulta si la comunicación recibida es real / pregunta por el beneficio</td><td class="c"><span class="rp-pill si"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>SÍ</span></td><td><p>Confirmar y comunicar el beneficio completo según su grupo G. Si es Elite, incluir el bloque Elite.</p></td></tr><tr class="si"><td>Cliente llama por otro motivo y la gestión quedó resuelta satisfactoriamente</td><td class="c"><span class="rp-pill si"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>SÍ</span></td><td><p>Antes del cierre, introducir el beneficio de manera natural.</p></td></tr><tr class="na"><td>Cliente presenta un problema activo o una fricción</td><td class="c"><span class="rp-pill na"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>NO AÚN</span></td><td><p>Resolver o encaminar primero el inconveniente. No promocionar beneficios mientras el cliente continúa afectado.</p><div class="rp-only"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></svg><span>Solo mencionar si el cliente pregunta sobre el beneficio o comunicación enviada.</span></div></td></tr><tr class="si"><td>Problema resuelto durante la interacción y cliente queda conforme</td><td class="c"><span class="rp-pill si"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>SÍ</span></td><td><p>Luego de confirmar la solución, puede comunicarse el beneficio.</p></td></tr><tr class="no"><td>Cliente molesto / reclamo / intención de baja</td><td class="c"><span class="rp-pill no"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>NO</span></td><td><p>Aplicar el protocolo correspondiente. No comunicar el beneficio en ningún momento de la interacción, ni utilizarlo como argumento de contención, compensación o cierre. El foco debe mantenerse únicamente en resolver o encaminar correctamente la situación del cliente.</p><div class="rp-only"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></svg><span>Solo mencionar si el cliente pregunta sobre el beneficio o comunicación enviada.</span></div></td></tr></tbody>
+    </table>
+  </div>
+  <footer class="sp-foot"><span></span><button type="button" class="nav" id="reglaClose">Cerrar</button></footer>
+</dialog>
+<script>
+/* ===== Pop-up Regla Principal ===== */
+(function(){
+  const d=document.getElementById('reglaPop'), op=document.getElementById('reglaOpen');
+  op.addEventListener('click',()=>d.showModal());
+  document.getElementById('reglaX').addEventListener('click',()=>d.close());
+  document.getElementById('reglaClose').addEventListener('click',()=>d.close());
+  d.addEventListener('click',e=>{if(e.target===d)d.close();});
+  d.addEventListener('close',()=>op.focus());
+})();
+</script>
+</body>
+</html>
